@@ -9,6 +9,7 @@ import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Orders from "./pages/Orders";
 import MenuItems from "./pages/MenuItems";
+import Categories from "./pages/Categories";
 
 function App() {
 
@@ -37,6 +38,10 @@ function App() {
 
 
                 <Route path="/menu-items" element={<MenuItems />} />
+
+                <Route path="/categories" element={<Categories />} />
+
+                
 
             </Routes>
 
