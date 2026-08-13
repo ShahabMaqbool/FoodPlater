@@ -1,0 +1,791 @@
+/* =========================================
+   ORDERS PAGE
+========================================= */
+
+.dashboard-layout {
+    width: 100%;
+    min-height: 100vh;
+    display: flex;
+    background: #f8fafb;
+}
+
+/* =========================================
+   MAIN CONTENT
+========================================= */
+
+.dashboard-main {
+    flex: 1;
+    min-width: 0;
+    padding: 24px 32px 40px 34px;
+    box-sizing: border-box;
+}
+
+/* =========================================
+   ORDERS HEADING + FILTERS
+========================================= */
+
+.orders-title-row {
+    width: 100%;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 36px;
+}
+
+.orders-title-row h1 {
+    margin: 0;
+    color: #000000;
+    font-family: "Inter Tight", sans-serif;
+    font-size: 32px;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.32px;
+}
+
+/* =========================================
+   FILTERS
+========================================= */
+
+.orders-filters {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.search-box {
+    width: 184px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    gap: 10px;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 8px;
+}
+
+.search-box svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+.search-box input {
+    width: 100%;
+    height: 22px;
+    padding: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    color: rgba(0, 0, 0, 0.5);
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+.search-box input::placeholder {
+    color: rgba(0, 0, 0, 0.5);
+}
+
+.filter-box {
+    width: 128px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 8px;
+    color: rgba(0, 0, 0, 0.5);
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    cursor: pointer;
+}
+
+/* =========================================
+   FILTER SELECT
+========================================= */
+
+.filter-box {
+    position: relative;
+    overflow: visible;
+}
+
+/* Custom-styled native select */
+.filter-box .filter-select {
+    width: 100%;
+    height: 100%;
+    min-width: 0;
+
+    padding: 0 2px 0 30px;
+
+    border: none;
+    outline: none;
+    background: transparent;
+
+    color: #6f6b6b;
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+
+    cursor: pointer;
+
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+/* Keep the Figma arrow visible */
+.filter-box > svg {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 18px;
+    height: 18px;
+
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* Select focus */
+.filter-box:focus-within {
+    border-color: #2f5138;
+    box-shadow: 0 0 0 2px rgba(47, 81, 56, 0.06);
+}
+
+/* Native dropdown options */
+.filter-box .filter-select option {
+    color: #111111;
+    background: #ffffff;
+    font-family: "Inter", sans-serif;
+    font-size: 12px;
+}
+
+/* Better spacing for the dropdown */
+.filter-box .filter-select option:checked {
+    background: #f1f4f2;
+    color: #2f4a35;
+}
+
+.filter-box svg {
+    width: 20px;
+    height: 20px;
+    flex-shrink: 0;
+}
+
+/* =========================================
+   ORDER STATISTICS
+========================================= */
+
+.orders-stats {
+    width: 100%;
+    display: flex;
+    align-items: stretch;
+    gap: 16px;
+    margin-bottom: 36px;
+}
+
+.stat-card {
+    height: 112px;
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    gap: 16px;
+    padding: 20px 36px;
+    box-sizing: border-box;
+    background: #ffffff;
+    border: 0.6px solid rgba(0, 0, 0, 0.07);
+    border-radius: 24px;
+    box-shadow: 0 -8px 0 #2f4a35;
+}
+
+.stat-title {
+    color: #7c7979;
+    font-family: Inter, sans-serif;
+    font-size: 16px;
+    font-weight: 400;
+    line-height: normal;
+}
+
+.stat-value {
+    color: #2f4a35;
+    font-family: Inter, sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    line-height: 1;
+}
+
+/* =========================================
+   ORDERS TABLE CONTAINER
+========================================= */
+
+.orders-table-container {
+    width: 100%;
+    min-width: 0;
+    background: #ffffff;
+    border: 0.6px solid rgba(0, 0, 0, 0.07);
+    border-radius: 20px;
+    overflow: hidden;
+    box-sizing: border-box;
+    margin-bottom: 20px;
+}
+
+/* =========================================
+   TABLE
+========================================= */
+
+.orders-table {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background: #ffffff;
+    box-sizing: border-box;
+}
+
+/* =========================================
+   TABLE HEADER
+   Figma: Instrument Sans / 14px / 600 / 21px
+========================================= */
+
+.table-header {
+    width: 100%;
+    height: 56px;
+    display: grid;
+    grid-template-columns:
+        1.3fr
+        1.15fr
+        1.1fr
+        0.65fr
+        0.9fr
+        0.9fr
+        1fr
+        0.55fr;
+    align-items: center;
+    padding: 0 24px;
+    box-sizing: border-box;
+    background: #2f4a35;
+    color: #ffffff;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 21px;
+}
+
+/* =========================================
+   TABLE BODY
+========================================= */
+
+.table-body {
+    width: 100%;
+}
+
+/* =========================================
+   TABLE ROW
+========================================= */
+
+.table-row {
+    width: 100%;
+    height: 48px;
+    min-height: 48px;
+    display: grid;
+    grid-template-columns:
+        1.3fr
+        1.15fr
+        1.1fr
+        0.65fr
+        0.9fr
+        0.9fr
+        1fr
+        0.55fr;
+    align-items: center;
+    padding: 0 24px;
+    box-sizing: border-box;
+    background: #ffffff;
+    border-bottom: 1px solid #eeeeee;
+    color: #111111;
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+}
+
+/* Figma body text properties */
+.table-row > div {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 21px;
+    color: #000000;
+}
+
+.table-row:last-child {
+    border-bottom: none;
+}
+
+/* =========================================
+   STATUS BADGES
+========================================= */
+
+.status-badge {
+    width: fit-content;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 10px;
+    border-radius: 7px;
+    font-size: 10px;
+    font-weight: 500;
+    white-space: nowrap;
+}
+
+.status-dot {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    display: inline-block;
+}
+
+.status-badge.completed {
+    background: #e4f3d0;
+    color: #62a800;
+}
+
+.status-badge.completed .status-dot {
+    background: #78bd18;
+}
+
+.status-badge.in-process {
+    background: #fff1d7;
+    color: #efa800;
+}
+
+.status-badge.in-process .status-dot {
+    background: #f5b51b;
+}
+
+.status-badge.cancelled {
+    background: #ffdce1;
+    color: #ef4655;
+}
+
+.status-badge.cancelled .status-dot {
+    background: #ef4655;
+}
+
+/* =========================================
+   ACTION
+========================================= */
+
+.action-menu {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    color: #111111;
+    cursor: pointer;
+    line-height: 1;
+}
+
+/* =========================================
+   PAGINATION
+========================================= */
+
+.pagination {
+    width: 100%;
+    height: 57px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+    padding: 8px 24px;
+    box-sizing: border-box;
+    background: #ffffff;
+}
+
+.page-number,
+.page-arrow {
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: #111111;
+    font-family: Inter, sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+.page-number.active {
+    background: #f1f4f2;
+    color: #2f4a35;
+    font-weight: 600;
+}
+
+.page-arrow {
+    border: 1px solid #e5e5e5;
+    background: #ffffff;
+    font-size: 18px;
+}
+
+.page-dots {
+    padding: 0 4px;
+    color: #111111;
+    font-size: 12px;
+}
+
+/* =========================================
+   FOCUS
+========================================= */
+
+.search-box:focus-within,
+.filter-box:focus {
+    border-color: #2f5138;
+}
+
+/* =========================================
+   RESPONSIVE
+========================================= */
+
+@media (max-width: 1100px) {
+    .dashboard-main {
+        padding-left: 24px;
+        padding-right: 24px;
+    }
+
+    .table-header,
+    .table-row {
+        grid-template-columns:
+            1.3fr
+            1.1fr
+            1fr
+            0.6fr
+            0.9fr
+            0.9fr
+            1fr
+            0.5fr;
+    }
+}
+
+@media (max-width: 850px) {
+    .orders-title-row {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        gap: 20px;
+    }
+
+    .orders-filters {
+        width: 100%;
+    }
+
+    .search-box {
+        flex: 1;
+    }
+
+    .orders-stats {
+        flex-wrap: wrap;
+    }
+
+    .stat-card {
+        flex: 1 1 calc(50% - 8px);
+    }
+
+    .orders-table-container {
+        overflow-x: auto;
+    }
+
+    .orders-table {
+        min-width: 900px;
+    }
+}
+
+@media (max-width: 600px) {
+    .dashboard-main {
+        padding: 20px 16px 30px;
+    }
+
+    .orders-stats {
+        flex-direction: column;
+    }
+
+    .stat-card {
+        width: 100%;
+    }
+
+    .orders-filters {
+        flex-wrap: wrap;
+    }
+
+    .search-box {
+        width: 100%;
+    }
+}
+
+/* =========================================
+   PENDING STATUS
+========================================= */
+
+.status-badge.pending {
+    background: #fff1d7;
+    color: #efa800;
+}
+
+.status-badge.pending .status-dot {
+    background: #f5b51b;
+}
+
+
+/* =========================================
+   NEW STATUS
+========================================= */
+
+.status-badge.new {
+    background: #e4f3d0;
+    color: #62a800;
+}
+
+.status-badge.new .status-dot {
+    background: #78bd18;
+}
+
+
+/* =========================================
+   ACTION MENU
+========================================= */
+
+.action-menu {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+
+/* 3 DOT BUTTON */
+
+.action-button {
+    width: 32px;
+    height: 32px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #111111;
+
+    font-size: 22px;
+    font-weight: 600;
+
+    line-height: 1;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.2s ease,
+        color 0.2s ease;
+}
+
+.action-button:hover {
+    background: #f1f4f2;
+    color: #2f4a35;
+}
+
+
+/* =========================================
+   ACTION DROPDOWN
+========================================= */
+
+.action-dropdown {
+    position: absolute;
+
+    top: 38px;
+    right: 0;
+
+    width: 145px;
+
+    padding: 6px;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+
+    background: #ffffff;
+
+    border: 1px solid #e7e7e7;
+
+    border-radius: 10px;
+
+    box-shadow:
+        0 8px 24px rgba(0, 0, 0, 0.12),
+        0 2px 6px rgba(0, 0, 0, 0.06);
+
+    z-index: 1000;
+
+    animation: actionMenuIn 0.15s ease-out;
+}
+
+
+/* DROPDOWN BUTTONS */
+
+.action-dropdown button {
+    width: 100%;
+    height: 36px;
+
+    display: flex;
+    align-items: center;
+
+    padding: 0 11px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    color: #222222;
+
+    font-family: "Inter", sans-serif;
+
+    font-size: 12px;
+    font-weight: 500;
+
+    text-align: left;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    transition:
+        background 0.15s ease,
+        color 0.15s ease;
+}
+
+
+/* HOVER */
+
+.action-dropdown button:hover {
+    background: #f1f4f2;
+    color: #2f4a35;
+}
+
+
+/* DELETE */
+
+.action-dropdown button.delete-action {
+    color: #ef4655;
+}
+
+.action-dropdown button.delete-action:hover {
+    background: #fff0f2;
+    color: #d93645;
+}
+
+
+/* ANIMATION */
+
+@keyframes actionMenuIn {
+
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+}
+
+/* =========================================
+   SWEET ALERT - ORDER VIEW
+========================================= */
+
+.order-view-popup {
+    border-radius: 18px !important;
+    padding: 28px !important;
+}
+
+.order-view-title {
+    color: #2f5138 !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+}
+
+.order-view-button {
+    border-radius: 8px !important;
+    padding: 10px 28px !important;
+    font-size: 14px !important;
+}
+
+.swal2-html-container {
+    font-size: 14px !important;
+    color: #555 !important;
+}
+
+.swal2-html-container p {
+    margin: 6px 0 !important;
+}
+
+/* =========================================
+   EDIT ORDER SWEET ALERT
+========================================= */
+
+.edit-order-form {
+    display: flex;
+    flex-direction: column;
+    text-align: left;
+    gap: 7px;
+}
+
+.edit-order-form label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #2f5138;
+    margin-top: 8px;
+}
+
+.edit-order-form input,
+.edit-order-form select {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background: #fff;
+    font-size: 14px;
+    outline: none;
+    transition: 0.2s ease;
+}
+
+.edit-order-form input:focus,
+.edit-order-form select:focus {
+    border-color: #2f5138;
+    box-shadow: 0 0 0 2px rgba(47, 81, 56, 0.08);
+}
