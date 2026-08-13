@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import ProtectedRoute from "./components/ProtectedRoute";
 import Orders from "./pages/Orders";
+import MenuItems from "./pages/MenuItems";
 
 function App() {
 
@@ -32,7 +33,10 @@ function App() {
 
                 <Route
                     path="/orders"
-                    element={<Orders/>}/>
+                    element={<Orders />} />
+
+
+                <Route path="/menu-items" element={<MenuItems />} />
 
             </Routes>
 

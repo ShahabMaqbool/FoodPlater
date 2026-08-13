@@ -10,7 +10,6 @@ import CustomersIcon from "./icons/CustomersIcon";
 import ProfileIcon from "./icons/ProfileIcon";
 import MoreSquareIcon from "./icons/MoreSquareIcon";
 
-
 function Sidebar() {
 
     const location = useLocation();
@@ -58,7 +57,9 @@ function Sidebar() {
                 {/* Menu Items */}
                 <Link
                     to="/menu-items"
-                    className="sidebar-item"
+                    className={`sidebar-item ${
+                        location.pathname === "/menu-items" ? "active" : ""
+                    }`}
                 >
                     <MenuItemsIcon />
 
@@ -69,7 +70,9 @@ function Sidebar() {
                 {/* Categories */}
                 <Link
                     to="/categories"
-                    className="sidebar-item"
+                    className={`sidebar-item ${
+                        location.pathname === "/categories" ? "active" : ""
+                    }`}
                 >
                     <CategoriesIcon />
 
@@ -80,7 +83,9 @@ function Sidebar() {
                 {/* Customers */}
                 <Link
                     to="/customers"
-                    className="sidebar-item"
+                    className={`sidebar-item ${
+                        location.pathname === "/customers" ? "active" : ""
+                    }`}
                 >
                     <CustomersIcon />
 
@@ -91,7 +96,9 @@ function Sidebar() {
                 {/* Profile */}
                 <Link
                     to="/profile"
-                    className="sidebar-item"
+                    className={`sidebar-item ${
+                        location.pathname === "/profile" ? "active" : ""
+                    }`}
                 >
                     <ProfileIcon />
 
@@ -129,6 +136,5 @@ function Sidebar() {
         </aside>
     );
 }
-
 
 export default Sidebar;

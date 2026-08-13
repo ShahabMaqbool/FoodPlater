@@ -1,0 +1,715 @@
+@import url('https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400;500;600;700&display=swap');
+/* =================================================
+   MENU ITEMS PAGE
+================================================= */
+
+.menu-items-main {
+    flex: 1;
+    min-width: 0;
+    background: #f8fafb;
+    min-height: 100vh;
+}
+
+
+/* =================================================
+   CONTENT
+================================================= */
+
+.menu-items-content {
+    padding: 20px 34px 30px;
+    box-sizing: border-box;
+}
+
+
+/* =================================================
+   PAGE HEADER
+================================================= */
+
+.menu-items-top {
+    width: 100%;
+    height: 44px;
+
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+
+    align-self: stretch;
+
+    margin-bottom: 36px;
+    box-sizing: border-box;
+}
+
+.menu-items-top h2 {
+    margin: 0;
+
+    font-size: 28px;
+    line-height: 34px;
+    font-weight: 700;
+
+    color: #111111;
+}
+
+
+/* =================================================
+   FILTERS
+================================================= */
+
+.menu-items-filters {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 10px;
+}
+
+
+/* =================================================
+   SEARCH
+================================================= */
+
+.menu-search {
+    width: 160px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 8px;
+
+    padding: 0 12px;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+
+    box-sizing: border-box;
+}
+
+.menu-search span {
+    font-size: 18px;
+    color: #777777;
+
+    line-height: 1;
+}
+
+.menu-search input {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-size: 11px;
+    font-weight: 400;
+
+    color: #333333;
+}
+
+.menu-search input::placeholder {
+    color: #888888;
+}
+
+
+/* =================================================
+   FILTER DROPDOWNS
+================================================= */
+
+.menu-filter {
+    position: relative;
+
+    width: 120px;
+    height: 40px;
+
+    display: flex;
+    align-items: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+
+    box-sizing: border-box;
+}
+
+.menu-filter select {
+    appearance: none;
+    -webkit-appearance: none;
+
+    width: 100%;
+    height: 100%;
+
+    padding: 0 32px 0 12px;
+
+    border: none;
+    outline: none;
+
+    background: transparent;
+
+    font-size: 11px;
+    font-weight: 400;
+
+    color: #555555;
+
+    cursor: pointer;
+}
+
+.menu-filter span {
+    position: absolute;
+
+    right: 12px;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    font-size: 15px;
+
+    color: #666666;
+
+    pointer-events: none;
+}
+
+
+/* ================================
+   STATS
+================================ */
+
+.menu-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+
+    gap: 16px;
+
+    width: 100%;
+    height: 112px;
+
+    margin-bottom: 24px;
+}
+
+
+/* ================================
+   STAT CARD
+================================ */
+
+.menu-stat-card {
+    width: 100%;
+    height: 112px;
+
+    padding: 20px 36px;
+    box-sizing: border-box;
+
+    background: #ffffff;
+
+    border: 0.6px solid rgba(0, 0, 0, 0.07);
+    border-radius: 24px;
+
+    /* Exact Figma green top effect */
+    box-shadow: 0 -8px 0 #2F4A35;
+
+    display: flex;
+    flex-direction: column;
+
+    justify-content: center;
+    align-items: flex-start;
+
+    gap: 4px;
+}
+
+
+/* ================================
+   STAT TITLE
+================================ */
+
+.menu-stat-card p {
+    margin: 0;
+
+    color: #7C7979;
+
+    font-family: "Inter Tight", sans-serif;
+    font-size: 20px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0.2px;
+}
+
+
+/* ================================
+   STAT VALUE
+================================ */
+
+.menu-stat-card h3 {
+    margin: 0;
+
+    color: #2F4A35;
+
+    font-family: "Inter Tight", sans-serif;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+    letter-spacing: 0.32px;
+}
+
+/* =================================================
+   TABLE CONTAINER
+================================================= */
+
+.menu-table-container {
+    width: 100%;
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 20px;
+    overflow: hidden;
+
+    margin-bottom: 20px;
+}
+
+/* =================================================
+   TABLE
+================================================= */
+
+.menu-table {
+    width: 100%;
+
+    border-collapse: collapse;
+
+    table-layout: fixed;
+}
+
+
+/* =================================================
+   TABLE HEADER
+================================================= */
+
+.menu-table thead {
+    background: #2f4a35;
+}
+
+/* ================================
+TABLE HEADINGS
+================================ */
+
+.menu-table th {
+    height: 45px;
+    padding: 0 20px;
+
+    background: #2f4a35;
+    color: #ffffff;
+
+    text-align: left;
+
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%; /* 21px */
+
+    white-space: nowrap;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+
+
+/* =================================================
+   COLUMN WIDTHS
+================================================= */
+
+.menu-table th:nth-child(1),
+.menu-table td:nth-child(1) {
+    width: 10%;
+}
+
+.menu-table th:nth-child(2),
+.menu-table td:nth-child(2) {
+    width: 22%;
+}
+
+.menu-table th:nth-child(3),
+.menu-table td:nth-child(3) {
+    width: 17%;
+}
+
+.menu-table th:nth-child(4),
+.menu-table td:nth-child(4) {
+    width: 14%;
+}
+
+.menu-table th:nth-child(5),
+.menu-table td:nth-child(5) {
+    width: 15%;
+}
+
+.menu-table th:nth-child(6),
+.menu-table td:nth-child(6) {
+    width: 13%;
+}
+
+.menu-table th:nth-child(7),
+.menu-table td:nth-child(7) {
+    width: 9%;
+}
+
+
+/* =================================================
+   TABLE ROWS
+================================================= */
+
+.menu-table tbody tr {
+    height: 45px;
+
+    border-bottom: 1px solid #eeeeee;
+}
+
+.menu-table tbody tr:last-child {
+    border-bottom: none;
+}
+
+/* ================================
+TABLE ROW DATA / CELLS
+================================ */
+
+.menu-table td {
+    height: 45px;
+    padding: 0 12px;
+
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+
+    color: #151515;
+    white-space: nowrap;
+    vertical-align: middle;
+    box-sizing: border-box;
+}
+
+
+/* =================================================
+   ITEM NAME + IMAGE
+================================================= */
+
+.menu-item-name {
+    display: flex;
+    align-items: center;
+
+    gap: 10px;
+}
+
+.burger-image {
+    width: 46px;
+    height: 46px;
+    border-radius: 6px;
+    flex-shrink: 0;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+}
+
+.burger-image img {
+    width: 46px;
+    height: 46px;
+    object-fit: cover;
+    border-radius: 6px;
+    display: block;
+}
+
+.menu-item-name {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.menu-item-name span {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 14px;
+    font-weight: 500;
+    line-height: 21px;
+    color: #151515;
+}
+
+
+/* =================================================
+   STATUS
+================================================= */
+
+.menu-status {
+    display: inline-flex;
+    align-items: center;
+
+    gap: 6px;
+
+    padding: 7px 10px;
+
+    border-radius: 6px;
+
+    font-size: 10px;
+    line-height: 14px;
+
+    font-weight: 500;
+
+    white-space: nowrap;
+}
+
+
+/* =================================================
+   IN STOCK
+================================================= */
+
+.menu-status.in-stock {
+    background: #e6f4d7;
+
+    color: #62a82e;
+}
+
+
+/* =================================================
+   OUT OF STOCK
+================================================= */
+
+.menu-status.out-stock {
+    background: #ffdfe3;
+
+    color: #ed5364;
+}
+
+
+/* =================================================
+   STATUS DOT
+================================================= */
+
+.status-dot {
+    width: 5px;
+    height: 5px;
+
+    border-radius: 50%;
+
+    flex-shrink: 0;
+}
+
+.menu-status.in-stock .status-dot {
+    background: #6db735;
+}
+
+.menu-status.out-stock .status-dot {
+    background: #ed5364;
+}
+
+
+/* =================================================
+   ACTION BUTTON
+================================================= */
+
+.menu-action-btn {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    background: transparent;
+
+    font-size: 20px;
+    line-height: 1;
+
+    color: #111111;
+
+    cursor: pointer;
+
+    border-radius: 6px;
+
+    padding: 0;
+}
+
+.menu-action-btn:hover {
+    background: #f1f1f1;
+}
+
+
+/* =================================================
+   PAGINATION
+================================================= */
+
+.menu-pagination {
+    height: 58px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 8px;
+
+    padding: 0 16px;
+
+    border-top: 1px solid #eeeeee;
+
+    box-sizing: border-box;
+}
+
+
+/* =================================================
+   PAGINATION ARROW
+================================================= */
+
+.pagination-arrow {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e5e5;
+
+    border-radius: 8px;
+
+    font-size: 17px;
+
+    color: #222222;
+
+    cursor: pointer;
+
+    padding: 0;
+}
+
+.pagination-arrow:hover {
+    background: #f5f5f5;
+}
+
+
+/* =================================================
+   PAGINATION NUMBERS
+================================================= */
+
+.pagination-number {
+    width: 30px;
+    height: 30px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border: none;
+
+    background: transparent;
+
+    border-radius: 8px;
+
+    font-size: 11px;
+
+    color: #222222;
+
+    cursor: pointer;
+
+    padding: 0;
+}
+
+.pagination-number:hover {
+    background: #f2f4f2;
+}
+
+
+/* ACTIVE PAGE */
+
+.pagination-number.active {
+    background: #eef2ee;
+
+    color: #2f4a35;
+
+    font-weight: 600;
+}
+
+
+/* =================================================
+   RESPONSIVE
+================================================= */
+
+@media (max-width: 1100px) {
+
+    .menu-items-content {
+        padding: 24px;
+    }
+
+    .menu-items-top {
+        align-items: flex-start;
+
+        gap: 20px;
+    }
+
+    .menu-items-filters {
+        flex-wrap: wrap;
+
+        justify-content: flex-end;
+    }
+
+    .menu-search {
+        width: 150px;
+    }
+
+    .menu-filter {
+        width: 110px;
+    }
+
+    .menu-table-container {
+        overflow-x: auto;
+    }
+
+    .menu-table {
+        min-width: 850px;
+    }
+}
+
+
+/* =================================================
+   MOBILE
+================================================= */
+
+@media (max-width: 768px) {
+
+    .menu-items-content {
+        padding: 20px;
+    }
+
+    .menu-items-top {
+        flex-direction: column;
+
+        align-items: flex-start;
+    }
+
+    .menu-items-filters {
+        width: 100%;
+
+        justify-content: flex-start;
+    }
+
+    .menu-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .menu-stat-card {
+        height: 100px;
+    }
+}
+
+/* =================================================
+   MENU ITEMS - COMMON HEADER ALIGNMENT
+   Keep Dashboard.css unchanged
+================================================= */
+
+.menu-items-main > .dashboard-header {
+    margin-top: 24px;
+    margin-left: 34px;
+    margin-right: 34px;
+
+    width: calc(100% - 68px);
+    box-sizing: border-box;
+}
