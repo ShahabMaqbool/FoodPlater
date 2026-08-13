@@ -211,3 +211,127 @@
         font-size: 52px;
     }
 }
+
+/* Notification Wrapper */
+.notification-wrapper {
+  position: relative;
+}
+
+/* Notification Dropdown */
+.notification-dropdown {
+  position: absolute;
+  top: 48px;
+  right: 0;
+  width: 340px;
+  background: #ffffff;
+  border: 1px solid #e8e8e8;
+  border-radius: 14px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.12);
+  z-index: 1000;
+  overflow: hidden;
+}
+
+/* Header */
+.notification-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 18px;
+  border-bottom: 1px solid #eeeeee;
+}
+
+.notification-header h3 {
+  margin: 0;
+  font-size: 16px;
+  font-weight: 600;
+  color: #2f4a35;
+}
+
+.notification-header span {
+  font-size: 11px;
+  font-weight: 600;
+  color: #2f4a35;
+  background: #edf4ee;
+  padding: 5px 9px;
+  border-radius: 12px;
+}
+
+/* Notification Item */
+.notification-item {
+  display: flex;
+  gap: 12px;
+  padding: 14px 18px;
+  border-bottom: 1px solid #f0f0f0;
+  transition: background 0.2s ease;
+}
+
+.notification-item:hover {
+  background: #f8faf8;
+}
+
+/* Notification Icon */
+.notification-icon {
+  width: 34px;
+  height: 34px;
+  min-width: 34px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 15px;
+}
+
+.notification-icon.new {
+  background: #e8f5df;
+}
+
+.notification-icon.pending {
+  background: #fff1d8;
+}
+
+.notification-icon.completed {
+  background: #e5f3e8;
+}
+
+/* Text */
+.notification-item strong {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #222;
+  margin-bottom: 3px;
+}
+
+.notification-item p {
+  margin: 0 0 4px;
+  font-size: 12px;
+  color: #777;
+}
+
+.notification-item small {
+  font-size: 10px;
+  color: #999;
+}
+
+/* View All */
+.view-all-notifications {
+  width: 100%;
+  border: none;
+  background: #ffffff;
+  color: #2f4a35;
+  font-size: 13px;
+  font-weight: 600;
+  padding: 14px;
+  cursor: pointer;
+}
+
+.view-all-notifications:hover {
+  background: #f5f8f5;
+}
+
+.notification-empty {
+  padding: 25px;
+  text-align: center;
+  font-size: 13px;
+  color: #888;
+}
