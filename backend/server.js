@@ -7,6 +7,7 @@ const authRoutes = require("./routes/authRoutes");
 const userRoutes = require("./routes/userRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const orderRoutes = require("./routes/orderRoutes");
+const menuItemRoutes=require("./routes/menuItemRoutes");
 
 
 const app = express();
@@ -27,6 +28,8 @@ app.use("/api/users", userRoutes);
 app.use("/api/dashboard", dashboardRoutes);
 
 app.use("/api/orders", orderRoutes);
+
+app.use("/api/menu-items",menuItemRoutes);
 
 
 
