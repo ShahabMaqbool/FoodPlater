@@ -10,6 +10,7 @@ import ProtectedRoute from "./components/ProtectedRoute";
 import Orders from "./pages/Orders";
 import MenuItems from "./pages/MenuItems";
 import Categories from "./pages/Categories";
+import Customers from "./pages/Customers";
 
 function App() {
 
@@ -40,6 +41,8 @@ function App() {
                 <Route path="/menu-items" element={<MenuItems />} />
 
                 <Route path="/categories" element={<Categories />} />
+
+                <Route path="/customers" element={<Customers />}/>
 
                 
 

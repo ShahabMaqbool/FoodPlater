@@ -1,0 +1,594 @@
+/* ================================
+   CUSTOMERS MAIN
+================================ */
+
+.customers-main {
+    flex: 1;
+    min-width: 0;
+    padding: 24px 32px 40px 34px;
+    box-sizing: border-box;
+}
+
+.customers-content {
+    width: 100%;
+}
+
+
+/* ================================
+   TOP SECTION
+================================ */
+
+.customers-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 18px;
+    height: 44px;
+}
+
+.customers-top h2 {
+    margin: 0;
+    font-family: "Inter Tight", sans-serif;
+    font-size: 32px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: normal;
+    letter-spacing: 0.32px;
+    color: #000000;
+}
+
+
+/* ================================
+   FILTERS
+================================ */
+
+.customers-filters {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+/* ================================
+   SEARCH
+================================ */
+
+.customer-search {
+    width: 184px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px;
+    background: #ffffff;
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    box-sizing: border-box;
+}
+
+.customer-search svg {
+    width: 16px;
+    height: 16px;
+    color: #777777;
+    flex-shrink: 0;
+}
+
+.customer-search input {
+    width: 100%;
+    min-width: 0;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 10px;
+    color: #333333;
+}
+
+.customer-search input::placeholder {
+    color: #888888;
+}
+
+
+/* ================================
+   STATUS / DATE FILTER
+================================ */
+
+.customer-filter {
+    position: relative;
+    width: 145px;
+    height: 44px;
+}
+
+
+/*
+   Native select arrow hide
+   so our Icon can be shown on LEFT
+*/
+.customer-filter select {
+    width: 100%;
+    height: 100%;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+
+    padding: 10px 10px 10px 34px;
+
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 8px;
+    outline: none;
+
+    background: #ffffff;
+
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 10px;
+    color: #777777;
+
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+
+/*
+   LEFT SIDE DROPDOWN ARROW
+*/
+.customer-filter svg {
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+
+    width: 14px;
+    height: 14px;
+
+    color: #777777;
+
+    pointer-events: none;
+}
+
+
+/* ================================
+   STATISTICS
+================================ */
+
+.customer-stats {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 10px;
+    margin-bottom: 24px;
+    width: 100%;
+}
+
+.customer-stat-card {
+    width: 100%;
+    height: 112px;
+
+    background: #ffffff;
+
+    border: 0.6px solid rgba(0, 0, 0, 0.08);
+    border-radius: 24px;
+
+    box-shadow: 0 -8px 0 #2f4a35;
+
+    padding: 20px 36px;
+
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+}
+
+.customer-stat-card p {
+    margin: 0 0 8px 0;
+
+    font-family: "Inter Tight", sans-serif;
+    font-size: 16px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+    letter-spacing: 0;
+
+    color: #7c7979;
+}
+
+.customer-stat-card h3 {
+    margin: 0;
+
+    font-family: "Inter Tight", sans-serif;
+    font-size: 32px;
+    font-style: normal;
+    line-height: 34px;
+    font-weight: 700;
+
+    color: #2f4a35;
+}
+
+
+/* ================================
+   TABLE CONTAINER
+================================ */
+
+.customer-table-container {
+    width: 100%;
+
+    background: #ffffff;
+
+    border: 1px solid #e5e5e5;
+    border-radius: 15px;
+
+    overflow: visible;
+
+    box-sizing: border-box;
+}
+
+.customer-table {
+    width: 100%;
+
+    border-collapse: separate;
+    border-spacing: 0;
+
+    table-layout: fixed;
+}
+
+
+/* ================================
+   TABLE HEADER
+================================ */
+
+.customer-table thead {
+    background: #2f4a35;
+}
+
+.customer-table th {
+    height: 56px;
+
+    padding: 12px;
+
+    text-align: left;
+
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    line-height: 150%;
+    font-weight: 600;
+
+    color: #ffffff;
+    background: #2f4a35;
+
+    vertical-align: middle;
+
+    box-sizing: border-box;
+}
+
+.customer-table th:first-child {
+    border-top-left-radius: 17px;
+}
+
+.customer-table th:last-child {
+    border-top-right-radius: 17px;
+}
+
+
+/* ================================
+   COLUMN WIDTHS
+================================ */
+
+.customer-table th:nth-child(1),
+.customer-table td:nth-child(1) {
+    width: 18%;
+}
+
+.customer-table th:nth-child(2),
+.customer-table td:nth-child(2) {
+    width: 19%;
+}
+
+.customer-table th:nth-child(3),
+.customer-table td:nth-child(3) {
+    width: 17%;
+}
+
+.customer-table th:nth-child(4),
+.customer-table td:nth-child(4) {
+    width: 23%;
+}
+
+.customer-table th:nth-child(5),
+.customer-table td:nth-child(5) {
+    width: 10%;
+}
+
+.customer-table th:nth-child(6),
+.customer-table td:nth-child(6) {
+    width: 13%;
+}
+
+/* ================================
+   TABLE BODY
+================================ */
+
+.customer-table tbody tr {
+    height: 56px;
+}
+
+.customer-table td {
+    height: 56px;
+
+    padding: 12px;
+
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 500;
+    line-height: 150%;
+
+    color: #000000;
+
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+
+    vertical-align: middle;
+
+    box-sizing: border-box;
+}
+
+.customer-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+
+
+/* ================================
+   ACTION
+================================ */
+
+.customer-action-cell {
+    position: relative;
+    overflow: visible !important;
+    height: 56px;
+    padding: 0 !important;
+    box-sizing: border-box;
+}
+
+.customer-action-btn {
+    width: 37px;
+    height: 56px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    gap: 4px;
+    align-self: stretch;
+    border: none;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+    background: #ffffff;
+    color: #000000;
+    font-size: 17px;
+    font-weight: 500;
+    line-height: 1;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+.customer-action-btn:hover {
+    color: #2f4a35;
+}
+
+
+/* ================================
+   ACTION DROPDOWN
+================================ */
+
+.customer-action-menu {
+    position: absolute;
+
+    top: 30px;
+    right: 12px;
+
+    width: 110px;
+
+    padding: 5px;
+
+    background: #ffffff;
+
+    border: 1px solid #e8e8e8;
+    border-radius: 9px;
+
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+
+    z-index: 9999;
+
+    display: flex;
+    flex-direction: column;
+
+    gap: 2px;
+}
+
+.customer-action-menu button {
+    width: 100%;
+    height: 30px;
+
+    padding: 0 8px;
+
+    display: flex;
+    align-items: center;
+
+    gap: 7px;
+
+    border: none;
+    border-radius: 6px;
+
+    background: transparent;
+
+    color: #333333;
+
+    text-align: left;
+
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+
+    cursor: pointer;
+}
+
+.customer-action-menu button svg {
+    width: 14px;
+    height: 14px;
+
+    color: #555555;
+}
+
+.customer-action-menu button:hover {
+    background: #f1f4f1;
+    color: #2f4a35;
+}
+
+.customer-action-menu button:hover svg {
+    color: #2f4a35;
+}
+
+.customer-action-menu .delete-action {
+    color: #e94d5b;
+}
+
+.customer-action-menu .delete-action svg {
+    color: #e94d5b;
+}
+
+.customer-action-menu .delete-action:hover {
+    background: #fff0f1;
+    color: #e94d5b;
+}
+
+
+/* ================================
+   NO DATA
+================================ */
+
+.customer-no-data {
+    height: 100px !important;
+
+    text-align: center !important;
+
+    color: #777777 !important;
+}
+
+
+/* ================================
+   PAGINATION
+================================ */
+
+.customer-pagination {
+    min-height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+
+    gap: 4px;
+
+    padding: 0 14px;
+
+    box-sizing: border-box;
+}
+
+.customer-pagination-arrow,
+.customer-pagination-number {
+    width: 26px;
+    height: 26px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 0;
+
+    border: none;
+    border-radius: 7px;
+
+    background: transparent;
+
+    color: #111111;
+
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 9px;
+
+    cursor: pointer;
+}
+
+.customer-pagination-arrow {
+    border: 1px solid #e8e8e8;
+
+    background: #ffffff;
+
+    font-size: 14px;
+}
+
+.customer-pagination-number.active {
+    background: #f0f4f0;
+
+    color: #2f4a35;
+
+    font-weight: 600;
+}
+
+.customer-pagination-arrow:hover:not(:disabled),
+.customer-pagination-number:hover {
+    background: #f0f4f0;
+}
+
+.customer-pagination-arrow:disabled {
+    opacity: 0.5;
+
+    cursor: not-allowed;
+}
+
+.customer-pagination-dots {
+    padding: 0 3px;
+
+    font-size: 10px;
+
+    color: #555555;
+}
+
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+@media (max-width: 1000px) {
+
+    .customers-main {
+        padding: 20px;
+    }
+
+    .customers-top {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 14px;
+        height: auto;
+    }
+
+    .customers-filters {
+        width: 100%;
+    }
+
+    .customer-search {
+        flex: 1;
+    }
+
+    .customer-filter {
+        flex: 1;
+    }
+
+    .customer-table-container {
+        overflow-x: auto;
+    }
+
+    .customer-table {
+        min-width: 800px;
+    }
+}
