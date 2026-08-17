@@ -1,163 +1,687 @@
-import { useState } from "react";
-
+import { useState, useEffect } from "react";
 import Sidebar from "../components/dashboard/Sidebar";
 import DashboardHeader from "../components/dashboard/DashboardHeader";
-
+import { Icon } from "@iconify/react";
 import "../styles/Categories.css";
+import Swal from "sweetalert2";
 
 function Categories() {
+
+  // =========================
+  // STATES
+  // =========================
 
   const [search, setSearch] = useState("");
   const [statusFilter, setStatusFilter] = useState("all");
   const [dateFilter, setDateFilter] = useState("all");
 
-  // Temporary data
-  // Database connect karne ke baad ye remove karke API data ayega
-  const categories = [
-    {
-      id: 1,
-      name: "Burger",
-      description: "Lorem Ipsum is simply dummy text of the printin...",
-      items: 6,
-      status: "active"
-    },
-    {
-      id: 2,
-      name: "Pizza",
-      description: "Lorem Ipsum is simply dummy text of the printin...",
-      items: 6,
-      status: "inactive"
-    },
-    {
-      id: 3,
-      name: "Drinks",
-      description: "Lorem Ipsum is simply dummy text of the printin...",
-      items: 6,
-      status: "active"
-    },
-    {
-      id: 4,
-      name: "Desserts",
-      description: "Lorem Ipsum is simply dummy text of the printin...",
-      items: 6,
-      status: "inactive"
-    },
-    {
-      id: 5,
-      name: "Sandwiches",
-      description: "Lorem Ipsum is simply dummy text of the printin...",
-      items: 6,
-      status: "active"
-    },
-    {
-      id: 6,
-      name: "Pasta",
-      description: "Lorem Ipsum is simply dummy text of the printin...",
-      items: 6,
-      status: "active"
-    },
-    {
-      id: 7,
-      name: "Salads",
-      description: "Lorem Ipsum is simply dummy text of the printin...",
-      items: 6,
-      status: "inactive"
-    },
-    {
-      id: 8,
-      name: "Chicken",
-      description: "Lorem Ipsum is simply dummy text of the printin...",
-      items: 6,
-      status: "active"
-    },
-    {
-      id: 9,
-      name: "Deals",
-      description: "Lorem Ipsum is simply dummy text of the printin...",
-      items: 6,
-      status: "inactive"
+  const [categories, setCategories] = useState([]);
+
+  const [openAction, setOpenAction] = useState(null);
+
+  const [currentPage, setCurrentPage] = useState(1);
+
+  const categoriesPerPage = 9;
+
+
+  // =========================
+  // FETCH CATEGORIES
+  // =========================
+
+  useEffect(() => {
+
+    const fetchCategories = async () => {
+
+      try {
+
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          "http://localhost:5000/api/categories",
+          {
+            method: "GET",
+            headers: {
+              "Authorization": `Bearer ${token}`,
+              "Content-Type": "application/json"
+            }
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+
+          console.error(data.message);
+
+          return;
+        }
+
+        setCategories(data.categories);
+
+      } catch (error) {
+
+        console.error(
+          "Failed to fetch categories:",
+          error
+        );
+
+      }
+
+    };
+
+    fetchCategories();
+
+  }, []);
+
+
+  // =========================
+  // VIEW CATEGORY
+  // =========================
+
+  const handleView = (category) => {
+
+    Swal.fire({
+
+      title: category.category_name,
+
+      html: `
+        <div style="
+          text-align:left;
+          font-size:14px;
+          line-height:1.8;
+        ">
+
+          <p>
+            <strong>Description:</strong>
+            ${category.description || "N/A"}
+          </p>
+
+          <p>
+            <strong>Items:</strong>
+            ${category.item_count}
+          </p>
+
+          <p>
+            <strong>Status:</strong>
+            ${category.status === "active"
+          ? "Active"
+          : "Inactive"
+        }
+          </p>
+
+          <p>
+            <strong>Created:</strong>
+            ${category.created_at
+          ? new Date(
+            category.created_at
+          ).toLocaleDateString()
+          : "N/A"
+        }
+          </p>
+
+        </div>
+      `,
+
+      confirmButtonColor: "#2F4A35",
+
+      confirmButtonText: "Close"
+
+    });
+
+  };
+
+
+  // =========================
+  // EDIT CATEGORY
+  // =========================
+
+  const handleEdit = async (category) => {
+
+    const { value: formValues } = await Swal.fire({
+
+      title: "Edit Category",
+
+      html: `
+
+        <input
+          id="swal-category-name"
+          class="swal2-input"
+          placeholder="Category Name"
+          value="${category.category_name}"
+        />
+
+        <textarea
+          id="swal-description"
+          class="swal2-textarea"
+          placeholder="Description"
+        >${category.description || ""}</textarea>
+
+        <input
+          id="swal-item-count"
+          class="swal2-input"
+          type="number"
+          min="0"
+          placeholder="Items"
+          value="${category.item_count}"
+        />
+
+        <select
+          id="swal-status"
+          class="swal2-select"
+        >
+
+          <option
+            value="active"
+            ${category.status === "active"
+          ? "selected"
+          : ""
+        }
+          >
+            Active
+          </option>
+
+          <option
+            value="inactive"
+            ${category.status === "inactive"
+          ? "selected"
+          : ""
+        }
+          >
+            Inactive
+          </option>
+
+        </select>
+
+      `,
+
+      focusConfirm: false,
+
+      showCancelButton: true,
+
+      confirmButtonText: "Update",
+
+      cancelButtonText: "Cancel",
+
+      confirmButtonColor: "#2F4A35",
+
+      preConfirm: () => {
+
+        const category_name =
+          document.getElementById(
+            "swal-category-name"
+          ).value;
+
+        const description =
+          document.getElementById(
+            "swal-description"
+          ).value;
+
+        const item_count =
+          document.getElementById(
+            "swal-item-count"
+          ).value;
+
+        const status =
+          document.getElementById(
+            "swal-status"
+          ).value;
+
+
+        if (!category_name.trim()) {
+
+          Swal.showValidationMessage(
+            "Category name is required"
+          );
+
+          return false;
+        }
+
+
+        return {
+
+          category_name:
+            category_name.trim(),
+
+          description:
+            description.trim(),
+
+          item_count:
+            Number(item_count) || 0,
+
+          status
+
+        };
+
+      }
+
+    });
+
+
+    // Cancel pressed
+    if (!formValues) {
+
+      return;
     }
-  ];
 
 
-  // Search + Status Filter
-  const filteredCategories = categories.filter((category) => {
+    try {
 
-    const matchesSearch =
-      category.name
-        .toLowerCase()
-        .includes(search.toLowerCase()) ||
-
-      category.description
-        .toLowerCase()
-        .includes(search.toLowerCase());
+      const token =
+        localStorage.getItem("token");
 
 
-    const matchesStatus =
-      statusFilter === "all" ||
-      category.status === statusFilter;
+      const response = await fetch(
+
+        `http://localhost:5000/api/categories/${category.id}`,
+
+        {
+
+          method: "PUT",
+
+          headers: {
+
+            "Authorization":
+              `Bearer ${token}`,
+
+            "Content-Type":
+              "application/json"
+
+          },
+
+          body:
+            JSON.stringify(formValues)
+
+        }
+
+      );
 
 
-    return matchesSearch && matchesStatus;
+      const data =
+        await response.json();
 
-  });
 
+      if (!response.ok) {
+
+        Swal.fire({
+
+          icon: "error",
+
+          title: "Update Failed",
+
+          text:
+            data.message ||
+            "Failed to update category"
+
+        });
+
+        return;
+      }
+
+
+      // Update frontend table
+      setCategories(
+        (prevCategories) =>
+          prevCategories.map(
+            (item) =>
+              item.id === category.id
+                ? data.category
+                : item
+          )
+      );
+
+
+      setOpenAction(null);
+
+
+      Swal.fire({
+
+        icon: "success",
+
+        title: "Updated!",
+
+        text:
+          "Category updated successfully.",
+
+        confirmButtonColor:
+          "#2F4A35"
+
+      });
+
+
+    } catch (error) {
+
+      console.error(error);
+
+
+      Swal.fire({
+
+        icon: "error",
+
+        title: "Error",
+
+        text:
+          "Something went wrong."
+
+      });
+
+    }
+
+  };
+
+
+  // =========================
+  // DELETE CATEGORY
+  // =========================
+
+  const handleDelete = async (category) => {
+
+    const result =
+      await Swal.fire({
+
+        title:
+          "Delete Category?",
+
+        text:
+          `Are you sure you want to delete "${category.category_name}"?`,
+
+        icon:
+          "warning",
+
+        showCancelButton:
+          true,
+
+        confirmButtonColor:
+          "#e94d5b",
+
+        cancelButtonColor:
+          "#6c757d",
+
+        confirmButtonText:
+          "Yes, Delete",
+
+        cancelButtonText:
+          "Cancel"
+
+      });
+
+
+    if (!result.isConfirmed) {
+
+      return;
+    }
+
+
+    try {
+
+      const token =
+        localStorage.getItem("token");
+
+
+      const response =
+        await fetch(
+
+          `http://localhost:5000/api/categories/${category.id}`,
+
+          {
+
+            method: "DELETE",
+
+            headers: {
+
+              "Authorization":
+                `Bearer ${token}`,
+
+              "Content-Type":
+                "application/json"
+
+            }
+
+          }
+
+        );
+
+
+      const data =
+        await response.json();
+
+
+      if (!response.ok) {
+
+        Swal.fire({
+
+          icon:
+            "error",
+
+          title:
+            "Delete Failed",
+
+          text:
+            data.message ||
+            "Failed to delete category"
+
+        });
+
+        return;
+      }
+
+
+      // Remove from frontend
+      setCategories(
+        (prevCategories) =>
+          prevCategories.filter(
+            (item) =>
+              item.id !== category.id
+          )
+      );
+
+
+      setOpenAction(null);
+
+
+      Swal.fire({
+
+        icon:
+          "success",
+
+        title:
+          "Deleted!",
+
+        text:
+          "Category deleted successfully.",
+
+        confirmButtonColor:
+          "#2F4A35"
+
+      });
+
+
+    } catch (error) {
+
+      console.error(error);
+
+
+      Swal.fire({
+
+        icon:
+          "error",
+
+        title:
+          "Error",
+
+        text:
+          "Something went wrong."
+
+      });
+
+    }
+
+  };
+
+
+  // =========================
+  // SEARCH + FILTER + DATE
+  // =========================
+
+  const filteredCategories =
+    categories
+
+      .filter((category) => {
+
+        const matchesSearch =
+
+          category.category_name
+            .toLowerCase()
+            .includes(
+              search.toLowerCase()
+            )
+
+          ||
+
+          (category.description || "")
+            .toLowerCase()
+            .includes(
+              search.toLowerCase()
+            );
+
+
+        const matchesStatus =
+
+          statusFilter === "all" ||
+
+          category.status ===
+          statusFilter;
+
+
+        return (
+          matchesSearch &&
+          matchesStatus
+        );
+
+      })
+
+
+      .sort((a, b) => {
+
+        if (
+          dateFilter === "latest"
+        ) {
+
+          return (
+            new Date(b.created_at) -
+            new Date(a.created_at)
+          );
+
+        }
+
+
+        if (
+          dateFilter === "oldest"
+        ) {
+
+          return (
+            new Date(a.created_at) -
+            new Date(b.created_at)
+          );
+
+        }
+
+
+        return 0;
+
+      });
+
+  // =========================
+  // PAGINATION
+  // =========================
+
+  const totalPages = Math.ceil(
+    filteredCategories.length / categoriesPerPage
+  );
+
+  const startIndex =
+    (currentPage - 1) * categoriesPerPage;
+
+  const paginatedCategories =
+    filteredCategories.slice(
+      startIndex,
+      startIndex + categoriesPerPage
+    );
+
+
+  // =========================
+  // JSX
+  // =========================
 
   return (
 
     <div className="dashboard-layout">
 
-      {/* Sidebar */}
+
+      {/* SIDEBAR */}
+
       <Sidebar />
 
 
-      {/* Main */}
+      {/* MAIN */}
+
       <main className="categories-main">
 
-        {/* Header */}
+
+        {/* HEADER */}
+
         <DashboardHeader />
 
 
-        {/* Page Content */}
+        {/* CONTENT */}
+
         <section className="categories-content">
 
 
-          {/* Page Heading + Filters */}
+          {/* PAGE HEADING + FILTERS */}
 
           <div className="categories-top">
 
-            <h2>Categories</h2>
+
+            <h2>
+              Categories
+            </h2>
 
 
             <div className="categories-filters">
 
 
-              {/* Search */}
+              {/* SEARCH */}
 
               <div className="category-search">
 
-                <span>⌕</span>
+                <span>
+                  ⌕
+                </span>
 
                 <input
                   type="text"
                   placeholder="Search Categories"
                   value={search}
                   onChange={(e) =>
-                    setSearch(e.target.value)
+                    setSearch(
+                      e.target.value
+                    )
                   }
                 />
 
               </div>
 
 
-              {/* Status */}
+              {/* STATUS */}
 
               <div className="category-filter">
 
                 <select
                   value={statusFilter}
                   onChange={(e) =>
-                    setStatusFilter(e.target.value)
+                    setStatusFilter(
+                      e.target.value
+                    )
                   }
                 >
 
@@ -175,19 +699,23 @@ function Categories() {
 
                 </select>
 
-                <span>⌄</span>
+                <span>
+                  ⌄
+                </span>
 
               </div>
 
 
-              {/* Date */}
+              {/* DATE */}
 
               <div className="category-filter">
 
                 <select
                   value={dateFilter}
                   onChange={(e) =>
-                    setDateFilter(e.target.value)
+                    setDateFilter(
+                      e.target.value
+                    )
                   }
                 >
 
@@ -205,43 +733,80 @@ function Categories() {
 
                 </select>
 
-                <span>⌄</span>
+                <span>
+                  ⌄
+                </span>
 
               </div>
+
 
             </div>
 
           </div>
 
 
-          {/* Stats */}
+          {/* STATS */}
 
           <div className="category-stats">
 
 
+            {/* TOTAL */}
+
             <div className="category-stat-card">
 
-              <p>Total Categories</p>
+              <p>
+                Total Categories
+              </p>
 
-              <h3>25</h3>
+              <h3>
+                {categories.length}
+              </h3>
 
             </div>
 
 
+            {/* ACTIVE */}
+
             <div className="category-stat-card">
 
-              <p>Active Categories</p>
+              <p>
+                Active Categories
+              </p>
 
-              <h3>6</h3>
+              <h3>
+
+                {
+                  categories.filter(
+                    (category) =>
+                      category.status ===
+                      "active"
+                  ).length
+                }
+
+              </h3>
 
             </div>
 
 
+            {/* INACTIVE */}
+
             <div className="category-stat-card">
 
-              <p>Inactive Categories</p>
+              <p>
+                Inactive Categories
+              </p>
 
-              <h3>11</h3>
+              <h3>
+
+                {
+                  categories.filter(
+                    (category) =>
+                      category.status ===
+                      "inactive"
+                  ).length
+                }
+
+              </h3>
 
             </div>
 
@@ -249,25 +814,37 @@ function Categories() {
           </div>
 
 
-          {/* Table */}
+          {/* TABLE */}
 
           <div className="category-table-container">
 
+
             <table className="category-table">
+
 
               <thead>
 
                 <tr>
 
-                  <th>Category Name</th>
+                  <th>
+                    Category Name
+                  </th>
 
-                  <th>Description</th>
+                  <th>
+                    Description
+                  </th>
 
-                  <th>Items</th>
+                  <th>
+                    Items
+                  </th>
 
-                  <th>Status</th>
+                  <th>
+                    Status
+                  </th>
 
-                  <th>Action</th>
+                  <th>
+                    Action
+                  </th>
 
                 </tr>
 
@@ -276,126 +853,286 @@ function Categories() {
 
               <tbody>
 
-                {filteredCategories.map((category) => (
 
-                  <tr key={category.id}>
+                {paginatedCategories.map(
+                  (category) => (
 
-
-                    {/* Category Name */}
-
-                    <td>
-                      {category.name}
-                    </td>
+                    <tr
+                      key={category.id}
+                    >
 
 
-                    {/* Description */}
+                      {/* CATEGORY NAME */}
 
-                    <td className="category-description">
-                      {category.description}
-                    </td>
+                      <td>
 
-
-                    {/* Items */}
-
-                    <td>
-                      {category.items}
-                    </td>
-
-
-                    {/* Status */}
-
-                    <td>
-
-                      <span
-                        className={
-                          category.status === "active"
-                            ? "category-status active"
-                            : "category-status inactive"
+                        {
+                          category.category_name
                         }
+
+                      </td>
+
+
+                      {/* DESCRIPTION */}
+
+                      <td
+                        className="category-description"
                       >
 
-                        <span className="category-status-dot"></span>
+                        {
+                          category.description ||
+                          "N/A"
+                        }
 
-                        {category.status === "active"
-                          ? "Active"
-                          : "Inactive"}
-
-                      </span>
-
-                    </td>
+                      </td>
 
 
-                    {/* Action */}
+                      {/* ITEMS */}
 
-                    <td>
+                      <td>
 
-                      <button className="category-action-btn">
-                        ⋮
-                      </button>
+                        {
+                          category.item_count
+                        }
 
-                    </td>
-
-
-                  </tr>
-
-                ))}
+                      </td>
 
 
-                {filteredCategories.length === 0 && (
+                      {/* STATUS */}
 
-                  <tr>
+                      <td>
 
-                    <td
-                      colSpan="5"
-                      className="category-no-data"
-                    >
-                      No categories found.
-                    </td>
+                        <span
+                          className={
+                            category.status ===
+                              "active"
 
-                  </tr>
+                              ? "category-status active"
 
+                              : "category-status inactive"
+                          }
+                        >
+
+                          <span
+                            className="category-status-dot"
+                          />
+
+                          {
+                            category.status ===
+                              "active"
+
+                              ? "Active"
+
+                              : "Inactive"
+                          }
+
+                        </span>
+
+                      </td>
+
+
+                      {/* ACTION */}
+
+                      <td
+                        className="category-action-cell"
+                      >
+
+                        <button
+
+                          className="category-action-btn"
+
+                          onClick={() =>
+                            setOpenAction(
+
+                              openAction ===
+                                category.id
+
+                                ? null
+
+                                : category.id
+
+                            )
+                          }
+
+                        >
+
+                          ⋮
+
+                        </button>
+
+
+                        {/* DROPDOWN */}
+
+                        {
+                          openAction ===
+                          category.id && (
+
+                            <div
+                              className="category-action-menu"
+                            >
+
+
+                              {/* VIEW */}
+
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleView(
+                                    category
+                                  )
+                                }
+                              >
+
+                                <Icon
+                                  icon="mdi:eye-outline"
+                                />
+
+                                <span>
+                                  View
+                                </span>
+
+                              </button>
+
+
+                              {/* EDIT */}
+
+                              <button
+                                type="button"
+                                onClick={() =>
+                                  handleEdit(
+                                    category
+                                  )
+                                }
+                              >
+
+                                <Icon
+                                  icon="mdi:pencil-outline"
+                                />
+
+                                <span>
+                                  Edit
+                                </span>
+
+                              </button>
+
+
+                              {/* DELETE */}
+
+                              <button
+                                type="button"
+                                className="delete-action"
+                                onClick={() =>
+                                  handleDelete(
+                                    category
+                                  )
+                                }
+                              >
+
+                                <Icon
+                                  icon="mdi:trash-can-outline"
+                                />
+
+                                <span>
+                                  Delete
+                                </span>
+
+                              </button>
+
+
+                            </div>
+
+                          )
+                        }
+
+
+                      </td>
+
+
+                    </tr>
+
+                  )
                 )}
 
+
+                {/* NO DATA */}
+
+                {
+                  filteredCategories.length ===
+                  0 && (
+
+                    <tr>
+
+                      <td
+                        colSpan="5"
+                        className="category-no-data"
+                      >
+
+                        No categories found.
+
+                      </td>
+
+                    </tr>
+
+                  )
+                }
+
+
               </tbody>
+
 
             </table>
 
 
-            {/* Pagination */}
+            {/* PAGINATION */}
 
             <div className="category-pagination">
 
-              <button className="category-pagination-arrow">
+              <button
+                className="category-pagination-arrow"
+                disabled={currentPage === 1}
+                onClick={() =>
+                  setCurrentPage((prev) =>
+                    Math.max(prev - 1, 1)
+                  )
+                }
+              >
                 ←
               </button>
 
-              <button className="category-pagination-number active">
-                1
-              </button>
 
-              <button className="category-pagination-number">
-                2
-              </button>
+              {Array.from(
+                { length: totalPages },
+                (_, index) => index + 1
+              ).map((page) => (
 
-              <button className="category-pagination-number">
-                3
-              </button>
+                <button
+                  key={page}
+                  className={`category-pagination-number ${currentPage === page
+                    ? "active"
+                    : ""
+                    }`}
+                  onClick={() =>
+                    setCurrentPage(page)
+                  }
+                >
+                  {page}
+                </button>
 
-              <span>...</span>
+              ))}
 
-              <button className="category-pagination-number">
-                8
-              </button>
 
-              <button className="category-pagination-number">
-                9
-              </button>
-
-              <button className="category-pagination-number">
-                10
-              </button>
-
-              <button className="category-pagination-arrow">
+              <button
+                className="category-pagination-arrow"
+                disabled={currentPage === totalPages}
+                onClick={() =>
+                  setCurrentPage((prev) =>
+                    Math.min(
+                      prev + 1,
+                      totalPages
+                    )
+                  )
+                }
+              >
                 →
               </button>
 
@@ -406,11 +1143,15 @@ function Categories() {
 
         </section>
 
+
       </main>
+
 
     </div>
 
   );
+
 }
+
 
 export default Categories;

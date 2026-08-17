@@ -8,6 +8,7 @@ const userRoutes = require("./routes/userRoutes");
 const dashboardRoutes = require("./routes/dashboardRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const menuItemRoutes=require("./routes/menuItemRoutes");
+const categoryRoutes=require("./routes/categoryRoutes");
 
 
 const app = express();
@@ -31,6 +32,9 @@ app.use("/api/orders", orderRoutes);
 
 app.use("/api/menu-items",menuItemRoutes);
 
+app.use("/api/categories",categoryRoutes);
+
+
 
 
 
@@ -40,3 +44,4 @@ const PORT = process.env.PORT || 5000;
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
 });
+
