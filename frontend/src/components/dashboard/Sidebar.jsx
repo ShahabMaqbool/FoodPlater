@@ -114,7 +114,7 @@ function Sidebar() {
 
 
                 <img
-                    src="/admin-avatar.png"
+                    src="/admin-avatar.jpg"
                     alt="Admin"
                     className="admin-avatar"
                 />

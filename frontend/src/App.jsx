@@ -11,6 +11,7 @@ import Orders from "./pages/Orders";
 import MenuItems from "./pages/MenuItems";
 import Categories from "./pages/Categories";
 import Customers from "./pages/Customers";
+import Profile from "./pages/Profile";
 
 function App() {
 
@@ -43,6 +44,8 @@ function App() {
                 <Route path="/categories" element={<Categories />} />
 
                 <Route path="/customers" element={<Customers />}/>
+
+                <Route path="/Profile" element={<Profile />}/>
 
                 
 

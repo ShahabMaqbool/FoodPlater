@@ -1,0 +1,556 @@
+/* =========================================
+   PROFILE MAIN LAYOUT
+========================================= */
+
+.profile-main {
+    flex: 1;
+    min-width: 0;
+    padding: 20px 32px 40px 24px;
+    box-sizing: border-box;
+    background: #f8fafb;
+    min-height: 100vh;
+}
+
+.profile-content {
+    width: 100%;
+    max-width: 100%;
+    padding-right: 32px;
+    margin: 0 ;
+    box-sizing: border-box;
+}
+
+
+/* =========================================
+   PAGE HEADING
+========================================= */
+
+.profile-page-heading {
+    margin-bottom: 16px;
+}
+
+.profile-page-heading h2 {
+    margin: 0;
+    font-family: "Inter Tight", sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    line-height: 28px;
+    color: #111111;
+}
+
+.profile-page-heading p {
+    margin: 2px 0 0;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    line-height: 16px;
+    color: #777777;
+}
+
+
+/* =========================================
+   TOP & BOTTOM ROWS (GRID)
+========================================= */
+
+.profile-top-row,
+.profile-bottom-row {
+    display: grid;
+    grid-template-columns: 360px 1fr;
+    gap: 24px;
+    width: 100%;
+    margin-bottom: 24px;
+}
+
+.profile-top-row {
+    margin-bottom: 16px;
+}
+
+
+/* =========================================
+   CARDS GENERAL STYLING
+========================================= */
+
+.profile-card,
+.profile-information-card,
+.security-card,
+.change-password-card {
+    background: #ffffff !important;
+    border: 1px solid #e6e6e6;
+    border-radius: 12px;
+    box-sizing: border-box;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.025);
+    width: 100%;
+    padding: 28px;
+}
+
+
+/* =========================================
+   1. PROFILE CARD (Top Left)
+========================================= */
+
+.profile-card {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    width: 100%;
+    height: auto;
+    
+}
+
+.profile-image-wrapper {
+    position: relative;
+    width: 88px;
+    height: 88px;
+    margin-top: 4px;
+    margin-bottom: 8px;
+}
+
+.profile-image {
+    width: 88px;
+    height: 88px;
+    display: block;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.profile-camera-btn {
+    position: absolute;
+    right: -3px;
+    bottom: 1px;
+    width: 27px;
+    height: 27px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 3px solid #ffffff;
+    border-radius: 50%;
+    background: #2f4a35;
+    color: #ffffff;
+    cursor: pointer;
+}
+
+.profile-camera-btn svg {
+    width: 14px;
+    height: 14px;
+}
+
+.profile-name {
+    margin: 0 0 4px;
+    font-family: "Inter Tight", sans-serif;
+    font-size: 18px;
+    font-weight: 600;
+    line-height: 23px;
+    color: #111111;
+    text-align: center;
+    width: 100%;
+}
+
+.profile-role {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    height: 20px;
+    padding: 0 11px;
+    margin-bottom: 14px;
+    border-radius: 10px;
+    background: #dff2e4;
+    color: #2f8b4c;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.profile-details {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+    border-top: 1px solid #eeeeee;
+    padding-top: 14px;
+    align-items: center;
+}
+
+.profile-detail-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 14px;
+    color: #333333;
+    height: 20px;
+    
+}
+
+.profile-detail-item svg {
+    width: 14px;
+    height: 14px;
+    flex-shrink: 0;
+    color: #555555;
+}
+
+
+/* =========================================
+   2. PERSONAL INFORMATION (Top Right)
+========================================= */
+
+.profile-information-card {
+    padding: 20px 24px;
+}
+
+.profile-card-heading {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    margin-bottom: 24px;
+}
+
+.profile-heading-icon {
+    width: 36px;
+    height: 33px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #222222;
+}
+
+.profile-heading-icon.green {
+    color: #2f6b43;
+}
+
+.profile-heading-icon svg {
+    width: 20px;
+    height: 20px;
+}
+
+.profile-card-heading h3 {
+    margin: 0;
+    font-family: "Inter Tight", sans-serif;
+    font-size: 17px;
+    font-weight: 600;
+    line-height: 18px;
+    color: #222222;
+}
+
+.profile-card-heading p {
+    margin: 1px 0 0;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 600;
+    line-height: 13px;
+    color: #777777;
+}
+
+.profile-form {
+    width: 100%;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    column-gap: 190px;
+    row-gap: 12px;
+    box-sizing: border-box;
+}
+
+.profile-input-group {
+    width: 250%;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+   
+}
+
+.profile-input-group label {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 13px;
+    color: #333333;
+}
+
+.profile-input-group input {
+    width: 100%;
+    min-width: 0;
+    height: 36px;
+    padding: 0 16px;
+    box-sizing: border-box;
+    border: 1px solid #dedede;
+    border-radius: 6px;
+    background: #ffffff;
+    outline: none;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 12px;
+    font-weight: 400;
+    color: #222222;
+    
+}
+
+.profile-input-group input:focus {
+    border-color: #2f4a35;
+    
+}
+
+.profile-input-group input:disabled {
+    background: #f3f4f5;
+    color: #999999;
+    cursor: not-allowed;
+}
+
+.profile-date-input {
+    position: relative;
+    width: 100%;
+}
+
+.profile-date-input input {
+    width: 100%; 
+    padding-right: 40px;
+    
+}
+
+.profile-date-input input::-webkit-calendar-picker-indicator {
+    opacity: 0;
+    cursor: pointer;
+}
+
+.profile-date-input svg {
+    position: absolute;
+    right: 10px;
+    top: 30%;
+    transform: translateY(-50%);
+    width: 15px;
+    height: 15px;
+    color: #888888;
+    pointer-events: none;
+}
+
+.profile-update-btn {
+    grid-column: 1 / 2;
+    width: 110px;
+    height: 37px;
+    margin-top: 4px;
+    border: none;
+    border-radius: 6px;
+    background: #2f4a35;
+    color: #ffffff;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+}
+
+.profile-update-btn:hover {
+    background: #243c2b;
+}
+
+
+/* =========================================
+   3. ACCOUNT SECURITY (Bottom Left)
+========================================= */
+
+.security-card {
+    padding: 20px 24px;
+    height: 340px;
+}
+
+.security-card .profile-card-heading {
+    margin-bottom: 18px;
+}
+
+.security-row {
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.security-row h4 {
+    margin: 0;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    line-height: 14px;
+    color: #333333;
+}
+
+.security-row span {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 400;
+    color: #555555;
+}
+
+.security-enabled {
+    color: #299447 !important;
+    font-weight: 600 !important;
+}
+
+.security-change-btn {
+    width: 62px;
+    height: 28px;
+    padding: 0;
+    border: 1px solid #b7d0bd;
+    border-radius: 5px;
+    background: #ffffff;
+    color: #2f6b43;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    cursor: pointer;
+}
+
+.security-change-btn:hover {
+    background: #f1f7f3;
+}
+
+.login-activity-row {
+    width: 100%;
+    height: 46px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border: none;
+    border-bottom: 1px solid #eeeeee;
+    background: transparent;
+    color: #333333;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    text-align: left;
+}
+
+.login-activity-row svg {
+    width: 16px;
+    height: 16px;
+    color: #555555;
+}
+
+
+/* =========================================
+   4. CHANGE PASSWORD (Bottom Right)
+========================================= */
+
+.change-password-card {
+    padding: 20px 24px;
+    height: auto;
+}
+
+.change-password-card .profile-card-heading {
+    margin-bottom: 12px;
+}
+
+.password-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.password-input-group {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 1px;
+}
+
+.password-input-group label {
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 10px;
+    font-weight: 600;
+    color: #333333;
+}
+
+.password-input-wrapper {
+    position: relative;
+    width: 100%;
+}
+
+.password-input-wrapper input {
+    width: 100%;
+    height: 30px;
+    padding: 0 44px 0 16px;
+    box-sizing: border-box;
+    border: 1px solid #dedede;
+    border-radius: 6px;
+    background: #ffffff;
+    outline: none;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 11px;
+    color: #222222;
+}
+
+.password-input-wrapper input:focus {
+    border-color: #2f4a35;
+}
+
+.password-input-wrapper button {
+    position: absolute;
+    right: 10px;
+    top: 17%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 20px;
+    padding: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: none;
+    background: transparent;
+    color: #888888;
+    cursor: pointer;
+}
+
+.password-input-wrapper button svg {
+    width: 15px;
+    height: 15px;
+}
+
+.password-update-btn {
+    width: 130px;
+    height: 34px;
+    margin-top: 1px;
+    border: none;
+    border-radius: 6px;
+    background: #2f4a35;
+    color: #ffffff;
+    font-family: "Instrument Sans", sans-serif;
+    font-size: 11px;
+    font-weight: 500;
+    cursor: pointer;
+    
+}
+
+.password-update-btn:hover {
+    background: #243c2b;
+}
+
+
+/* =========================================
+   RESPONSIVE DESIGN
+========================================= */
+
+@media (max-width: 1100px) {
+    .profile-top-row,
+    .profile-bottom-row {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 700px) {
+    .profile-main {
+        padding: 0 15px 30px;
+    }
+
+    .profile-form {
+        grid-template-columns: 1fr;
+    }
+
+    .profile-update-btn {
+        grid-column: auto;
+    }
+}
