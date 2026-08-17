@@ -9,6 +9,7 @@ const dashboardRoutes = require("./routes/dashboardRoutes");
 const orderRoutes = require("./routes/orderRoutes");
 const menuItemRoutes=require("./routes/menuItemRoutes");
 const categoryRoutes=require("./routes/categoryRoutes");
+const customerRoutes=require("./routes/customerRoutes")
 
 
 const app = express();
@@ -35,6 +36,7 @@ app.use("/api/menu-items",menuItemRoutes);
 app.use("/api/categories",categoryRoutes);
 
 
+app.use("/api/customers", customerRoutes);
 
 
 
