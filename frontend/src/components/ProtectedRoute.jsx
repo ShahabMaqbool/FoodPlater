@@ -12,8 +12,8 @@ function ProtectedRoute({ children, adminOnly = false }) {
         return <Navigate to="/" replace />;
     }
 
-    // Admin-only page
-    if (adminOnly && user.role !== "admin") {
+    // Admin and data entry role
+    if (adminOnly && user.role !== "super_admin" && user.role !== "data_entry") {
         return <Navigate to="/" replace />;
     }
 

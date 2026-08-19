@@ -17,7 +17,7 @@ const register = async (req, res) => {
 
     try {
 
-        const { name, email, password } = req.body;
+        const { name, email, password, role, phone, location } = req.body;
 
         if (!name || !email || !password) {
 
@@ -42,15 +42,20 @@ const register = async (req, res) => {
             10
         );
 
+        
+        const userRole = role || "data_entry"; 
+
         const user = await createUser(
             name,
             email,
             hashedPassword,
-            "admin"
+            userRole,
+            phone || null,
+            location || null
         );
 
         res.status(201).json({
-            message: "Admin registered successfully",
+            message: "User registered successfully",
             user
         });
 
@@ -171,7 +176,9 @@ const login = async (req, res) => {
                 id: user.id,
                 name: user.name,
                 email: user.email,
-                role: user.role
+                role: user.role,
+                phone: user.phone,
+                location: user.location
             }
 
         });

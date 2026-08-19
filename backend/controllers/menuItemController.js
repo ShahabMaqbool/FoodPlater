@@ -54,15 +54,14 @@ const menuItemById = async (req, res) => {
 };
 
 
-// CREATE MENU ITEM
+// CREATE MENU ITEM (Updated to handle image file via multer)
 const addMenuItem = async (req, res) => {
   try {
     const {
       item_name,
       category,
       price,
-      status,
-      image
+      status
     } = req.body;
 
     if (!item_name || !category || price === undefined || !status) {
@@ -71,12 +70,15 @@ const addMenuItem = async (req, res) => {
       });
     }
 
+    // Get image path if file was uploaded through multer
+    const imagePath = req.file ? `/uploads/${req.file.filename}` : null;
+
     const item = await createMenuItem(
       item_name,
       category,
       price,
       status,
-      image || null
+      imagePath
     );
 
     res.status(201).json({
@@ -102,8 +104,7 @@ const editMenuItem = async (req, res) => {
       item_name,
       category,
       price,
-      status,
-      image
+      status
     } = req.body;
 
     if (!item_name || !category || price === undefined || !status) {
@@ -112,20 +113,23 @@ const editMenuItem = async (req, res) => {
       });
     }
 
+    const existingItem = await getMenuItemById(id);
+    if (!existingItem) {
+      return res.status(404).json({
+        message: "Menu item not found"
+      });
+    }
+
+    const imagePath = req.file ? `/uploads/${req.file.filename}` : existingItem.image;
+
     const item = await updateMenuItem(
       id,
       item_name,
       category,
       price,
       status,
-      image || null
+      imagePath
     );
-
-    if (!item) {
-      return res.status(404).json({
-        message: "Menu item not found"
-      });
-    }
 
     res.json({
       message: "Menu item updated successfully",

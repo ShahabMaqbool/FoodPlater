@@ -21,34 +21,30 @@ function MenuItems() {
     outOfStockItems: 0
   });
 
-  // PAGINATION
+  // Pagination states
   const [currentPage, setCurrentPage] = useState(1);
   const itemsPerPage = 9;
 
-  // ACTION DROPDOWN
+  // Action dropdown state
   const [openActionId, setOpenActionId] = useState(null);
 
 
-  // ================================
-  // FETCH MENU ITEMS
-  // ================================
 
+  // Fetch menu items and stats on load
   useEffect(() => {
     fetchMenuItems();
     fetchMenuItemStats();
   }, []);
 
 
-  // RESET PAGE WHEN FILTER CHANGES
+  // Reset page on filter change
   useEffect(() => {
     setCurrentPage(1);
   }, [search, statusFilter, dateFilter]);
 
 
-  // ================================
-  // FETCH ALL MENU ITEMS
-  // ================================
 
+  // Fetch all menu items
   const fetchMenuItems = async () => {
 
     try {
@@ -93,10 +89,8 @@ function MenuItems() {
   };
 
 
-  // ================================
-  // FETCH STATS
-  // ================================
 
+  // Fetch menu item stats
   const fetchMenuItemStats = async () => {
 
     try {
@@ -130,13 +124,16 @@ function MenuItems() {
   };
 
 
-  // ================================
-  // VIEW MENU ITEM
-  // ================================
 
+  // View menu item details
   const handleView = async (item) => {
 
     setOpenActionId(null);
+
+    // Format full image URL for backend uploads
+    const imageUrl = item.image
+      ? (item.image.startsWith("http") ? item.image : `http://localhost:5000${item.image}`)
+      : "/burger.png";
 
     Swal.fire({
       title: item.item_name,
@@ -145,7 +142,7 @@ function MenuItems() {
 
           <div style="text-align:center; margin-bottom:15px;">
             <img
-              src="${item.image || "/burger.png"}"
+              src="${imageUrl}"
               alt="${item.item_name}"
               style="
                 width:100px;
@@ -173,11 +170,10 @@ function MenuItems() {
 
           <p>
             <strong>Status:</strong>
-            ${
-              item.status === "in_stock"
-                ? "In Stock"
-                : "Out Of Stock"
-            }
+            ${item.status === "in_stock"
+          ? "In Stock"
+          : "Out Of Stock"
+        }
           </p>
 
           <p>
@@ -195,13 +191,15 @@ function MenuItems() {
   };
 
 
-  // ================================
-  // EDIT MENU ITEM
-  // ================================
 
+  // Edit menu item with image upload and preview
   const handleEdit = async (item) => {
 
     setOpenActionId(null);
+
+    const existingImageUrl = item.image
+      ? (item.image.startsWith("http") ? item.image : `http://localhost:5000${item.image}`)
+      : "/burger.png";
 
     const result = await Swal.fire({
 
@@ -259,7 +257,42 @@ function MenuItems() {
 
         </select>
 
+        <div style="margin: 15px auto; width: 80%; text-align: left;">
+          <label style="font-size: 13px; color: #555; display: block; margin-bottom: 5px;">Update Image (Optional)</label>
+          <input
+            id="swal-edit-image"
+            type="file"
+            accept="image/*"
+            style="width: 100%; font-size: 13px;"
+          />
+        </div>
+
+        <div style="margin-top: 10px; text-align: center;">
+          <img
+            id="edit-image-preview"
+            src="${existingImageUrl}"
+            alt="Preview"
+            style="width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin: 0 auto; border: 1px solid #ddd;"
+          />
+        </div>
+
       `,
+
+      didOpen: () => {
+        const fileInput = document.getElementById("swal-edit-image");
+        const previewImg = document.getElementById("edit-image-preview");
+
+        fileInput.addEventListener("change", (event) => {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              previewImg.src = e.target.result;
+            };
+            reader.readAsDataURL(file);
+          }
+        });
+      },
 
       showCancelButton: true,
 
@@ -287,6 +320,8 @@ function MenuItems() {
         const status =
           document.getElementById("swal-status").value;
 
+        const imageFile = document.getElementById("swal-edit-image").files[0];
+
 
         if (!itemName || !category || !price) {
 
@@ -303,7 +338,7 @@ function MenuItems() {
           category: category,
           price: Number(price),
           status: status,
-          image: item.image || null
+          imageFile: imageFile || null
         };
 
       }
@@ -319,6 +354,18 @@ function MenuItems() {
     try {
 
       const token = localStorage.getItem("token");
+      const formValues = result.value;
+
+      // FormData use karein taake image file backend tak safely ja sakay
+      const formData = new FormData();
+      formData.append("item_name", formValues.item_name);
+      formData.append("category", formValues.category);
+      formData.append("price", formValues.price);
+      formData.append("status", formValues.status);
+
+      if (formValues.imageFile) {
+        formData.append("image", formValues.imageFile);
+      }
 
       const response = await fetch(
         `http://localhost:5000/api/menu-items/${item.id}`,
@@ -326,11 +373,10 @@ function MenuItems() {
           method: "PUT",
 
           headers: {
-            "Content-Type": "application/json",
             Authorization: `Bearer ${token}`
           },
 
-          body: JSON.stringify(result.value)
+          body: formData
         }
       );
 
@@ -347,7 +393,7 @@ function MenuItems() {
       }
 
 
-      // UPDATE TABLE WITHOUT REFRESH
+      // Update table state without refresh
       setMenuItems((prevItems) =>
         prevItems.map((menuItem) =>
           menuItem.id === item.id
@@ -357,7 +403,7 @@ function MenuItems() {
       );
 
 
-      // UPDATE STATS
+      // Update stats
       fetchMenuItemStats();
 
 
@@ -387,10 +433,209 @@ function MenuItems() {
   };
 
 
-  // ================================
-  // DELETE MENU ITEM
-  // ================================
+  // Add menu item with image upload and preview
+  const handleAdd = async () => {
 
+    const result = await Swal.fire({
+
+      title: "Add New Menu Item",
+
+      html: `
+        <input
+          id="swal-item-name"
+          class="swal2-input"
+          placeholder="Item Name"
+        />
+
+        <input
+          id="swal-category"
+          class="swal2-input"
+          placeholder="Category"
+        />
+
+        <input
+          id="swal-price"
+          class="swal2-input"
+          type="number"
+          placeholder="Price"
+        />
+
+        <select
+          id="swal-status"
+          class="swal2-select"
+          style="
+            width:80%;
+            margin:10px auto;
+            padding:12px;
+            border:1px solid #d9d9d9;
+            border-radius:5px;
+          "
+        >
+          <option value="in_stock">In Stock</option>
+          <option value="out_of_stock">Out Of Stock</option>
+        </select>
+
+        <div style="margin: 15px auto; width: 80%; text-align: left;">
+          <label style="font-size: 13px; color: #555; display: block; margin-bottom: 5px;">Product Image</label>
+          <input
+            id="swal-image"
+            type="file"
+            accept="image/*"
+            style="width: 100%; font-size: 13px;"
+          />
+        </div>
+
+        <div style="margin-top: 10px; text-align: center;">
+          <img
+            id="image-preview"
+            src=""
+            alt="Preview"
+            style="display: none; width: 80px; height: 80px; object-fit: cover; border-radius: 8px; margin: 0 auto; border: 1px solid #ddd;"
+          />
+        </div>
+      `,
+
+      didOpen: () => {
+        const fileInput = document.getElementById("swal-image");
+        const previewImg = document.getElementById("image-preview");
+
+        fileInput.addEventListener("change", (event) => {
+          const file = event.target.files[0];
+          if (file) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              previewImg.src = e.target.result;
+              previewImg.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+          } else {
+            previewImg.style.display = "none";
+          }
+        });
+      },
+
+      showCancelButton: true,
+
+      confirmButtonText: "Add Item",
+
+      cancelButtonText: "Cancel",
+
+      confirmButtonColor: "#2f4a35",
+
+      cancelButtonColor: "#777",
+
+      focusConfirm: false,
+
+      preConfirm: () => {
+
+        const itemName = document.getElementById("swal-item-name").value.trim();
+        const category = document.getElementById("swal-category").value.trim();
+        const price = document.getElementById("swal-price").value;
+        const status = document.getElementById("swal-status").value;
+        const imageFile = document.getElementById("swal-image").files[0];
+
+        if (!itemName || !category || !price) {
+          Swal.showValidationMessage("Please fill all required fields");
+          return false;
+        }
+
+        // Return plain data object instead of FormData directly
+        return {
+          item_name: itemName,
+          category: category,
+          price: price,
+          status: status,
+          imageFile: imageFile || null
+        };
+
+      }
+
+    });
+
+
+    if (!result.isConfirmed) {
+      return;
+    }
+
+
+    try {
+
+      const token = localStorage.getItem("token");
+      const formValues = result.value;
+
+      // Construct FormData here safely
+      const formData = new FormData();
+      formData.append("item_name", formValues.item_name);
+      formData.append("category", formValues.category);
+      formData.append("price", formValues.price);
+      formData.append("status", formValues.status);
+
+      if (formValues.imageFile) {
+        formData.append("image", formValues.imageFile);
+      }
+
+      const response = await fetch(
+        "http://localhost:5000/api/menu-items",
+        {
+          method: "POST",
+
+          headers: {
+            Authorization: `Bearer ${token}`
+          },
+
+          body: formData
+        }
+      );
+
+
+      const data = await response.json();
+
+
+      if (!response.ok) {
+
+        throw new Error(
+          data.message || "Failed to add menu item"
+        );
+
+      }
+
+
+      // Add new item to table state
+      setMenuItems((prevItems) => [data.menuItem, ...prevItems]);
+
+
+      // Update stats
+      fetchMenuItemStats();
+
+
+      Swal.fire({
+        icon: "success",
+        title: "Added!",
+        text: "Menu item added successfully.",
+        confirmButtonColor: "#2f4a35",
+        timer: 1800,
+        showConfirmButton: false
+      });
+
+
+    } catch (error) {
+
+      console.error("Add Menu Item Error:", error);
+
+      Swal.fire({
+        icon: "error",
+        title: "Add Failed",
+        text: error.message,
+        confirmButtonColor: "#2f4a35"
+      });
+
+    }
+
+  };
+
+
+
+  // Delete menu item
   const handleDelete = async (item) => {
 
     setOpenActionId(null);
@@ -455,7 +700,7 @@ function MenuItems() {
       }
 
 
-      // REMOVE ITEM FROM TABLE
+      // Remove item from table
       setMenuItems((prevItems) =>
         prevItems.filter(
           (menuItem) =>
@@ -464,11 +709,11 @@ function MenuItems() {
       );
 
 
-      // UPDATE STATS
+      // Update stats
       fetchMenuItemStats();
 
 
-      // IF LAST ITEM ON PAGE WAS DELETED
+      // Adjust pagination if needed
       const remainingItems =
         sortedItems.length - 1;
 
@@ -511,10 +756,8 @@ function MenuItems() {
   };
 
 
-  // ================================
-  // FILTER MENU ITEMS
-  // ================================
 
+  // Filter menu items
   const filteredItems = menuItems.filter((item) => {
 
     const matchesSearch =
@@ -537,10 +780,8 @@ function MenuItems() {
   });
 
 
-  // ================================
-  // DATE SORTING
-  // ================================
 
+  // Date sorting
   const sortedItems = [...filteredItems].sort(
     (a, b) => {
 
@@ -570,10 +811,8 @@ function MenuItems() {
   );
 
 
-  // ================================
-  // PAGINATION
-  // ================================
 
+  // Pagination calculations
   const totalPages = Math.ceil(
     sortedItems.length / itemsPerPage
   );
@@ -616,6 +855,23 @@ function MenuItems() {
 
 
             <div className="menu-items-filters">
+
+              {/* Add menu item button */}
+              <button
+                className="btn-add"
+                onClick={handleAdd}
+                style={{
+                  backgroundColor: "#2F4A35",
+                  color: "#fff",
+                  padding: "10px 15px",
+                  border: "none",
+                  borderRadius: "5px",
+                  cursor: "pointer",
+                  whiteSpace: "nowrap"
+                }}
+              >
+                + Add Menu Item
+              </button>
 
 
               {/* SEARCH */}
@@ -815,13 +1071,17 @@ function MenuItems() {
 
                           <div className="burger-image">
 
+
                             <img
                               src={
-                                item.image ||
-                                "/burger.png"
+                                item.image
+                                  ? (item.image.startsWith("http") ? item.image : `http://localhost:5000${item.image}`)
+                                  : "/burger.png"
                               }
                               alt={item.item_name}
                             />
+
+
 
                           </div>
 
@@ -937,17 +1197,16 @@ function MenuItems() {
 
 
                               {/* DELETE */}
-
-                              <button
-                                type="button"
-                                className="action-delete"
-                                onClick={() =>
-                                  handleDelete(item)
-                                }
-                              >
-                                <span>🗑</span>
-                                Delete
-                              </button>
+                              {JSON.parse(localStorage.getItem("user"))?.role === "super_admin" && (
+                                <button
+                                  type="button"
+                                  className="action-delete"
+                                  onClick={() => handleDelete(item)}
+                                >
+                                  <span>🗑</span>
+                                  Delete
+                                </button>
+                              )}
 
 
                             </div>
@@ -1022,11 +1281,10 @@ function MenuItems() {
 
                 <button
                   key={page}
-                  className={`pagination-number ${
-                    currentPage === page
-                      ? "active"
-                      : ""
-                  }`}
+                  className={`pagination-number ${currentPage === page
+                    ? "active"
+                    : ""
+                    }`}
                   onClick={() =>
                     setCurrentPage(page)
                   }

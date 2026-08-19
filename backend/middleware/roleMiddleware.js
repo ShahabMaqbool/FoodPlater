@@ -1,18 +1,32 @@
-const requireAdmin = (req, res, next) => {
 
+const requireSuperAdmin = (req, res, next) => {
     if (!req.user) {
-        return res.status(401).json({
-            message: "Authentication required"
-        });
+        return res.status(401).json({ message: "Authentication required" });
     }
 
-    if (req.user.role !== "admin") {
-        return res.status(403).json({
-            message: "Access denied. Admin only."
+    if (req.user.role !== "super_admin") {
+        return res.status(403).json({ 
+            message: "Access denied. Only Super Admin can Perform this action" 
         });
     }
 
     next();
 };
 
-module.exports = requireAdmin;
+
+const requireStafforAdmin = (req, res, next) => {
+    if (!req.user) {
+        return res.status(401).json({ message: "Authentication required" });
+    }
+
+
+    if (req.user.role === "super_admin" || req.user.role === "data_entry") {
+        return next();
+    }
+
+    return res.status(403).json({ 
+        message: "Access denied." 
+    });
+};
+
+module.exports = { requireSuperAdmin, requireStafforAdmin };

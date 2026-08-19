@@ -38,6 +38,8 @@ app.use("/api/categories",categoryRoutes);
 
 app.use("/api/customers", customerRoutes);
 
+app.use("/uploads", express.static("uploads"));
+
 
 
 

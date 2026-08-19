@@ -2,7 +2,7 @@
 const express=require("express");
 
 const verifyToken=require("../middleware/authMiddleware");
-const requireAdmin=require("../middleware/roleMiddleware");
+const { requireSuperAdmin, requireStafforAdmin }=require("../middleware/roleMiddleware");
 
 const {
     addCategory,
@@ -19,7 +19,7 @@ const router=express.Router();
 router.post(
     "/",
     verifyToken,
-    requireAdmin,
+    requireStafforAdmin,
     addCategory
     
 );
@@ -29,14 +29,14 @@ router.post(
 router.get(
     "/",
     verifyToken,
-    requireAdmin,
+    requireStafforAdmin,
     categories
 );
 
 router.get(
     "/:id",
     verifyToken,
-    requireAdmin,
+    requireStafforAdmin,
     categoryById
 );
 
@@ -44,14 +44,14 @@ router.get(
 router.put(
     "/:id",
     verifyToken,
-    requireAdmin,
+    requireStafforAdmin,
     editCategory
 );
 
 router.delete(
     "/:id",
     verifyToken,
-    requireAdmin,
+    requireSuperAdmin,
     removeCategory
 );
 

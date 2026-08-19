@@ -855,8 +855,12 @@ function Categories() {
 
 
                 {paginatedCategories.map(
-                  (category) => (
+                  (category) => {
+                    // Logged-in user check for role-based UI
+                    const currentUser = JSON.parse(localStorage.getItem("user") || "{}");
+                    const isSuperAdmin = currentUser.role === "super_admin";
 
+                    return (
                     <tr
                       key={category.id}
                     >
@@ -926,9 +930,9 @@ function Categories() {
                               : "Inactive"
                           }
 
-                        </span>
+                      </span>
 
-                      </td>
+                    </td>
 
 
                       {/* ACTION */}
@@ -1016,8 +1020,8 @@ function Categories() {
                               </button>
 
 
-                              {/* DELETE */}
-
+                              {/* DELETE - only super admin can see */}
+                            {isSuperAdmin && (
                               <button
                                 type="button"
                                 className="delete-action"
@@ -1026,7 +1030,7 @@ function Categories() {
                                     category
                                   )
                                 }
-                              >
+                                >
 
                                 <Icon
                                   icon="mdi:trash-can-outline"
@@ -1037,6 +1041,7 @@ function Categories() {
                                 </span>
 
                               </button>
+                            )}
 
 
                             </div>
@@ -1049,9 +1054,8 @@ function Categories() {
 
 
                     </tr>
-
-                  )
-                )}
+                  );
+                })}
 
 
                 {/* NO DATA */}

@@ -28,11 +28,12 @@ function Login() {
             setLoading(true);
 
             const data = await loginUser(email, password);
+            console.log("Login Successfull,data recived",data);
 
             // Save JWT token
             localStorage.setItem("token", data.token);
 
-            // Save user information
+            // Save user information 
             localStorage.setItem(
                 "user",
                 JSON.stringify(data.user)
@@ -42,7 +43,7 @@ function Login() {
             navigate("/dashboard");
 
         } catch (error) {
-
+            console.error("Login catch error:", error);
             setMessage(error.message);
 
         } finally {

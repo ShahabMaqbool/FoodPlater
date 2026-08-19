@@ -262,6 +262,7 @@
     border: 1px solid #e8e8e8;
     border-radius: 20px;
     overflow: hidden;
+    padding-bottom: 60px;
 
     margin-bottom: 20px;
 }
@@ -854,3 +855,5 @@ TABLE ROW DATA / CELLS
 .menu-action-dropdown .action-delete:hover {
   background: #fff0f0;
 }
+
+

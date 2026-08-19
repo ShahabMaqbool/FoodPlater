@@ -44,31 +44,37 @@ const findUserById = async (id) => {
 };
 
 
-// ===============================
+
 // CREATE USER
-// ===============================
+
 
 const createUser = async (
     name,
     email,
     password,
-    role
+    role,
+    phone,
+    location
 ) => {
 
     const result = await pool.query(
         `INSERT INTO users
-        (name, email, password, role)
-        VALUES ($1, $2, $3, $4)
+        (name, email, password, role, phone, location)
+        VALUES ($1, $2, $3, $4, $5, $6)
         RETURNING
             id,
             name,
             email,
-            role`,
+            role,
+            phone,
+            location`,
         [
             name,
             email,
             password,
-            role
+            role || 'data_entry', 
+            phone || null,
+            location || null
         ]
     );
 
@@ -76,9 +82,9 @@ const createUser = async (
 };
 
 
-// ===============================
+
 // UPDATE USER PROFILE
-// ===============================
+
 
 const updateUserProfile = async (
     id,
@@ -117,9 +123,9 @@ const updateUserProfile = async (
 };
 
 
-// ===============================
+
 // CHANGE USER PASSWORD
-// ===============================
+
 
 const changeUserPassword = async (
     id,
@@ -190,9 +196,9 @@ const changeUserPassword = async (
 };
 
 
-// ===============================
+
 // UPDATE LAST LOGIN
-// ===============================
+
 
 const updateLastLogin = async (userId) => {
 
@@ -208,9 +214,9 @@ const updateLastLogin = async (userId) => {
 };
 
 
-// ===============================
+
 // ADD LOGIN ACTIVITY
-// ===============================
+
 
 const addLoginActivity = async (
     userId,
@@ -238,9 +244,9 @@ const addLoginActivity = async (
 };
 
 
-// ===============================
+
 // GET LOGIN ACTIVITY
-// ===============================
+
 
 const getLoginActivity = async (userId) => {
 
@@ -260,9 +266,9 @@ const getLoginActivity = async (userId) => {
 };
 
 
-// ===============================
+
 // GET SECURITY INFORMATION
-// ===============================
+
 
 const getSecurityInfo = async (userId) => {
 
@@ -280,9 +286,9 @@ const getSecurityInfo = async (userId) => {
 };
 
 
-// ===============================
+
 // UPDATE TWO FACTOR
-// ===============================
+
 
 const updateTwoFactor = async (
     userId,

@@ -1,7 +1,6 @@
 const express = require("express");
 
 const verifyToken = require("../middleware/authMiddleware");
-const requireAdmin = require("../middleware/roleMiddleware");
 
 const {
     getProfile,
@@ -15,10 +14,10 @@ const {
 const router = express.Router();
 
 
+
 router.get(
     "/profile",
     verifyToken,
-    requireAdmin,
     getProfile
 );
 
@@ -26,14 +25,12 @@ router.get(
 router.put(
     "/profile",
     verifyToken,
-    requireAdmin,
     updateProfile
 );
 
 router.put(
     "/change-password",
     verifyToken,
-    requireAdmin,
     changePassword
 );
 
@@ -41,7 +38,6 @@ router.put(
 router.get(
     "/security",
     verifyToken,
-    requireAdmin,
     getSecurity
 );
 
@@ -50,7 +46,6 @@ router.get(
 router.get(
     "/login-activity",
     verifyToken,
-    requireAdmin,
     loginActivity
 );
 
@@ -59,11 +54,8 @@ router.get(
 router.put(
     "/two-factor",
     verifyToken,
-    requireAdmin,
     toggleTwoFactor
 );
-
-
 
 
 module.exports = router;

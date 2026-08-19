@@ -1,8 +1,7 @@
-
 const express = require("express");
 
 const verifyToken = require("../middleware/authMiddleware");
-const requireAdmin = require("../middleware/roleMiddleware");
+const { requireSuperAdmin } = require("../middleware/roleMiddleware");
 
 const {
     orders,
@@ -15,11 +14,9 @@ const {
 const router = express.Router();
 
 
-// Get all orders
 router.get(
     "/",
     verifyToken,
-    requireAdmin,
     orders
 );
 
@@ -28,7 +25,6 @@ router.get(
 router.get(
     "/:id",
     verifyToken,
-    requireAdmin,
     orderById
 );
 
@@ -37,7 +33,6 @@ router.get(
 router.post(
     "/",
     verifyToken,
-    requireAdmin,
     addOrder
 );
 
@@ -46,16 +41,14 @@ router.post(
 router.put(
     "/:id",
     verifyToken,
-    requireAdmin,
     editOrder
 );
 
 
-// Delete order
 router.delete(
     "/:id",
     verifyToken,
-    requireAdmin,
+    requireSuperAdmin,
     removeOrder
 );
 
