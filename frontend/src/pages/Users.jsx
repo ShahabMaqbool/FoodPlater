@@ -18,7 +18,7 @@ function Users() {
                 }
             });
             const data = await response.json();
-            
+
             if (response.ok) {
                 setUsers(data);
             } else {
@@ -48,9 +48,9 @@ function Users() {
                 },
                 body: JSON.stringify({ role: newRole })
             });
-            
+
             const data = await response.json();
-            
+
             if (response.ok) {
                 alert("User role updated successfully!");
                 fetchUsers(); // List ko dobara refresh karein
@@ -71,7 +71,7 @@ function Users() {
             {/* Main Content Area */}
             <main className="main-content" style={{ flex: 1, padding: "30px", backgroundColor: "#f9f9f9", minHeight: "100vh" }}>
                 <h1 style={{ marginBottom: "20px", color: "#333" }}>Users Management</h1>
-                
+
                 {message && <p className="error-message" style={{ color: "red" }}>{message}</p>}
 
                 {loading ? (
@@ -93,9 +93,9 @@ function Users() {
                                         <td style={{ padding: "12px" }}>{user.name}</td>
                                         <td style={{ padding: "12px" }}>{user.email}</td>
                                         <td style={{ padding: "12px" }}>
-                                            <span style={{ 
-                                                padding: "4px 8px", 
-                                                borderRadius: "4px", 
+                                            <span style={{
+                                                padding: "4px 8px",
+                                                borderRadius: "4px",
                                                 backgroundColor: user.role === "super_admin" ? "#d4edda" : "#fff3cd",
                                                 color: user.role === "super_admin" ? "#155724" : "#856404",
                                                 fontWeight: "bold",
@@ -105,14 +105,20 @@ function Users() {
                                             </span>
                                         </td>
                                         <td style={{ padding: "12px" }}>
-                                            <select
-                                                defaultValue={user.role}
-                                                onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                                                style={{ padding: "6px 10px", borderRadius: "4px", border: "1px solid #ccc" }}
-                                            >
-                                                <option value="super_admin">super_admin</option>
-                                                <option value="data_entry">data_entry</option>
-                                            </select>
+                                            {user.email === "admin@gmail.com" ? (
+                                                <span style={{ color: "#888", fontStyle: "italic", fontSize: "14px" }}>
+                                                    🔒 Locked (Primary Admin)
+                                                </span>
+                                            ) : (
+                                                <select
+                                                    value={user.role}
+                                                    onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                                                    style={{ padding: "6px 10px", borderRadius: "4px", border: "1px solid #ccc" }}
+                                                >
+                                                    <option value="super_admin">super_admin</option>
+                                                    <option value="data_entry">data_entry</option>
+                                                </select>
+                                            )}
                                         </td>
                                     </tr>
                                 ))}
