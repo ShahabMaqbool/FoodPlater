@@ -1,4 +1,5 @@
-import { Link, useLocation } from "react-router-dom";
+import { useState } from "react";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { Icon } from "@iconify/react";
 import "../../styles/Sidebar.css";
 
@@ -14,12 +15,22 @@ import UsersIcon from "./icons/UsersIcon";
 function Sidebar() {
 
     const location = useLocation();
+    const navigate = useNavigate();
+
+    // Dropdown state for 3 dots menu
+    const [showDropdown, setShowDropdown] = useState(false);
 
     // Get user Role form Local Storage (e.g., "admin", "super_admin", "data_entry", "staff")
     const userRole = localStorage.getItem("role");
 
     // Check user role data entry or limited staff
     const isDataEntry = userRole === "data_entry" || userRole === "staff";
+
+    // Logout Function
+    const handleLogout = () => {
+        localStorage.clear(); // Clear all user tokens and roles
+        navigate("/"); // Redirect to login page
+    };
 
     return (
         <aside className="sidebar">
@@ -123,7 +134,6 @@ function Sidebar() {
                             }`}
                     >
 
-                        {/*Icon Here attch it */}
                         <UsersIcon />
                         <span>Users Management</span>
                     </Link>
@@ -135,7 +145,7 @@ function Sidebar() {
 
 
             {/* Bottom Admin Profile */}
-            <div className="sidebar-profile">
+            <div className="sidebar-profile" style={{ position: "relative" }}>
 
 
                 <img
@@ -150,9 +160,48 @@ function Sidebar() {
                 </span>
 
 
-                <button className="profile-more">
+                <button 
+                    className="profile-more" 
+                    onClick={() => setShowDropdown(!showDropdown)}
+                    style={{ background: "none", border: "none", cursor: "pointer" }}
+                >
                     <MoreSquareIcon />
                 </button>
+
+
+                {/* Logout Popup Menu */}
+                {showDropdown && (
+                    <div style={{
+                        position: "absolute",
+                        bottom: "50px",
+                        right: "10px",
+                        backgroundColor: "#fff",
+                        boxShadow: "0px 4px 12px rgba(0,0,0,0.15)",
+                        borderRadius: "6px",
+                        overflow: "hidden",
+                        zIndex: 100,
+                        width: "120px"
+                    }}>
+                        <button
+                            onClick={handleLogout}
+                            style={{
+                                width: "100%",
+                                padding: "10px",
+                                textAlign: "left",
+                                backgroundColor: "transparent",
+                                border: "none",
+                                color: "#dc3545",
+                                fontWeight: "bold",
+                                cursor: "pointer",
+                                fontSize: "14px"
+                            }}
+                            onMouseOver={(e) => e.target.style.backgroundColor = "#f8f9fa"}
+                            onMouseOut={(e) => e.target.style.backgroundColor = "transparent"}
+                        >
+                            Logout
+                        </button>
+                    </div>
+                )}
 
 
             </div>
