@@ -309,6 +309,23 @@ const updateTwoFactor = async (
     return result.rows[0];
 };
 
+// NEW: USER MANAGEMENT (SUPER ADMIN)
+const getAllUsersFromDb=async ()=>{
+    const result=await pool.query(
+        `Select id,name,email,role,created_at from users order by id asc`
+    );
+    return result.rows;
+};
+
+const updateUserRoleInDb=async (userId,role)=>{
+    const result=await pool.query(
+        `Update users Set role=$1 where id=$2
+        Returning id,name,email,role`,
+        [role,userId]
+    );
+    return result.rows[0];
+};
+
 
 
 
@@ -332,6 +349,11 @@ module.exports = {
 
     getSecurityInfo,
 
-    updateTwoFactor
+    updateTwoFactor,
+
+    getAllUsersFromDb,
+
+    updateUserRoleInDb
+
 
 };

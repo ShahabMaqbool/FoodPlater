@@ -4,7 +4,9 @@ const {
     changeUserPassword,
     getSecurityInfo,
     getLoginActivity,
-    updateTwoFactor
+    updateTwoFactor,
+    updateUserRoleInDb,
+    getAllUsersFromDb
 } = require("../models/userModel");
 
 
@@ -267,11 +269,71 @@ const toggleTwoFactor = async (req, res) => {
 };
 
 
+// New User Management (Super Admin)
+
+// Get All Users
+
+const getAllUsers=async (req,res)=>{
+
+    try{
+
+        const users=await getAllUsersFromDb();
+        res.status(200).json(users);
+
+    }
+    catch (error){
+
+        console.error("Get All Users Error:",error);
+
+        res.status(500).json({message: "Failed to fetch users"});
+
+    }
+};
+
+// Update User Role
+
+const updateUserRole=async (req,res)=>{
+
+    try {
+
+        const {id}=req.params;
+        const {role}=req.body;
+
+        if (!role){
+            return res.status(400).json({message: "Role is Required"});
+
+        }
+
+        const updateUser=await updateUserRoleInDb(id,role);
+
+        if (!uodatedUser){
+            return res.status(404).json({message: "User Not Found"});
+        }
+
+        return res.status(200).json({
+            message: "User role udpated successfully",
+            user: updatedUser
+        });
+
+
+    }
+    catch (error){
+        console.error("Update User Role Error:",error);
+        res.status(500).json({
+            message: "Failed to Update user Role"
+        });
+
+
+    }
+};
+
 module.exports = {
     getProfile,
     updateProfile,
     changePassword,
     getSecurity,
     loginActivity,
-    toggleTwoFactor
+    toggleTwoFactor,
+    getAllUsers,
+    updateUserRole
 };

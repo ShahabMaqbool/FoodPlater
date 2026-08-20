@@ -14,6 +14,12 @@ function Sidebar() {
 
     const location = useLocation();
 
+    // Get user Role form Local Storage (e.g., "admin", "super_admin", "data_entry", "staff")
+    const userRole = localStorage.getItem("role");
+
+    // Check user role data entry or limited staff
+    const isDataEntry = userRole === "data_entry" || userRole === "staff";
+
     return (
         <aside className="sidebar">
 
@@ -28,38 +34,39 @@ function Sidebar() {
             <nav className="sidebar-nav">
 
 
-                {/* Dashboard */}
-                <Link
-                    to="/dashboard"
-                    className={`sidebar-item ${
-                        location.pathname === "/dashboard" ? "active" : ""
-                    }`}
-                >
-                    <DashboardIcon />
+                {/* Dashboard Only for superAdmin */}
+                {!isDataEntry && (
+                    <Link
+                        to="/dashboard"
+                        className={`sidebar-item ${location.pathname === "/dashboard" ? "active" : ""
+                            }`}
+                    >
+                        <DashboardIcon />
 
-                    <span>Dashboard</span>
-                </Link>
+                        <span>Dashboard</span>
+                    </Link>
+                )}
 
 
-                {/* Orders */}
-                <Link
-                    to="/orders"
-                    className={`sidebar-item ${
-                        location.pathname === "/orders" ? "active" : ""
-                    }`}
-                >
-                    <OrdersIcon />
+                {/* Orders only visible to super admin */}
+                {!isDataEntry && (
+                    <Link
+                        to="/orders"
+                        className={`sidebar-item ${location.pathname === "/orders" ? "active" : ""
+                            }`}
+                    >
+                        <OrdersIcon />
 
-                    <span>Orders</span>
-                </Link>
+                        <span>Orders</span>
+                    </Link>
+                )}
 
 
                 {/* Menu Items */}
                 <Link
                     to="/menu-items"
-                    className={`sidebar-item ${
-                        location.pathname === "/menu-items" ? "active" : ""
-                    }`}
+                    className={`sidebar-item ${location.pathname === "/menu-items" ? "active" : ""
+                        }`}
                 >
                     <MenuItemsIcon />
 
@@ -70,9 +77,8 @@ function Sidebar() {
                 {/* Categories */}
                 <Link
                     to="/categories"
-                    className={`sidebar-item ${
-                        location.pathname === "/categories" ? "active" : ""
-                    }`}
+                    className={`sidebar-item ${location.pathname === "/categories" ? "active" : ""
+                        }`}
                 >
                     <CategoriesIcon />
 
@@ -80,30 +86,47 @@ function Sidebar() {
                 </Link>
 
 
-                {/* Customers */}
-                <Link
-                    to="/customers"
-                    className={`sidebar-item ${
-                        location.pathname === "/customers" ? "active" : ""
-                    }`}
-                >
-                    <CustomersIcon />
+                {/* Customers only visible to super Admin */}
+                {!isDataEntry && (
+                    <Link
+                        to="/customers"
+                        className={`sidebar-item ${location.pathname === "/customers" ? "active" : ""
+                            }`}
+                    >
+                        <CustomersIcon />
 
-                    <span>Customers</span>
-                </Link>
+                        <span>Customers</span>
+                    </Link>
+
+                )}
 
 
                 {/* Profile */}
                 <Link
                     to="/profile"
-                    className={`sidebar-item ${
-                        location.pathname === "/profile" ? "active" : ""
-                    }`}
+                    className={`sidebar-item ${location.pathname === "/profile" ? "active" : ""
+                        }`}
                 >
                     <ProfileIcon />
 
                     <span>Profile</span>
                 </Link>
+
+
+                {/* User Management Only for Super Admin Role */}
+                {!isDataEntry && (
+
+                    <Link
+                        to="/users"
+                        className={`sidebar-item ${location.pathname === "/users" ? "active" : ""
+                            }`}
+                    >
+
+                        {/*Icon Here attch it */}
+                        <span>Users Management</span>
+                    </Link>
+
+                )}
 
 
             </nav>

@@ -28,10 +28,14 @@ function Login() {
             setLoading(true);
 
             const data = await loginUser(email, password);
-            console.log("Login Successfull,data recived",data);
+            console.log("Login Successful, data received", data);
 
             // Save JWT token
             localStorage.setItem("token", data.token);
+
+            // Save user role separately for easy access in Sidebar/Routes
+            const userRole = data.user.role;
+            localStorage.setItem("role", userRole);
 
             // Save user information 
             localStorage.setItem(
@@ -39,8 +43,12 @@ function Login() {
                 JSON.stringify(data.user)
             );
 
-            // Go to dashboard
-            navigate("/dashboard");
+            // Role-based redirection 
+            if (userRole === "super_admin" || userRole === "admin") {
+                navigate("/dashboard");
+            } else {
+                navigate("/menu-items"); // Data entry role goes directly to menu items
+            }
 
         } catch (error) {
             console.error("Login catch error:", error);

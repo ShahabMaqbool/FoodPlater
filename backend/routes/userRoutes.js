@@ -2,13 +2,17 @@ const express = require("express");
 
 const verifyToken = require("../middleware/authMiddleware");
 
+const {requireSuperAdmin}=require("../middleware/roleMiddleware");
+
 const {
     getProfile,
     updateProfile,
     changePassword,
     getSecurity,
     loginActivity,
-    toggleTwoFactor
+    toggleTwoFactor,
+    getAllUsers,
+    updateUserRole
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -55,6 +59,20 @@ router.put(
     "/two-factor",
     verifyToken,
     toggleTwoFactor
+);
+
+router.get(
+    "/",
+    verifyToken,
+    requireSuperAdmin,
+    getAllUsers
+)
+
+router.put(
+    "/:id/role",
+    verifyToken,
+    requireSuperAdmin,
+    updateUserRole
 );
 
 
