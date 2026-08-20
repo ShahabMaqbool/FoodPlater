@@ -12,7 +12,9 @@ const {
     loginActivity,
     toggleTwoFactor,
     getAllUsers,
-    updateUserRole
+    updateUserRole,
+    addNewUser,
+    deleteUser
 } = require("../controllers/userController");
 
 const router = express.Router();
@@ -73,6 +75,21 @@ router.put(
     verifyToken,
     requireSuperAdmin,
     updateUserRole
+);
+
+// Post create new user-> /api/users
+
+router.post(
+    "/",verifyToken,requireSuperAdmin,addNewUser
+);
+
+// delete user-> /api/users/:id
+
+router.delete(
+    "/:id",
+      verifyToken,
+      requireSuperAdmin,
+      deleteUser
 );
 
 

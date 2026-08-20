@@ -9,6 +9,9 @@ const {
     getAllUsersFromDb
 } = require("../models/userModel");
 
+const bcrypt = require("bcrypt");
+const { createUser } = require("../models/userModel");
+
 
 // GET PROFILE
 const getProfile = async (req, res) => {
@@ -222,7 +225,6 @@ const updateUserRole = async (req, res) => {
             return res.status(400).json({ message: "Role is Required" });
         }
 
-        // Check from Database which user role is changing
         const pool = require("../config/db");
         const userCheck = await pool.query("SELECT email FROM users WHERE id = $1", [id]);
 
@@ -230,7 +232,6 @@ const updateUserRole = async (req, res) => {
             return res.status(404).json({ message: "User Not Found" });
         }
 
-        // PROTECTION: Primary Super Admin ka role change nahi hone dena
         if (userCheck.rows[0].email === "admin@gmail.com") {
             return res.status(403).json({ message: "Primary Super Admin role cannot be changed!" });
         }
@@ -250,6 +251,89 @@ const updateUserRole = async (req, res) => {
 };
 
 
+// ADD NEW USER (Super Admin)
+const addNewUser = async (req, res) => {
+    try {
+        const { name, email, password, role } = req.body;
+
+        if (!name || !email || !password) {
+            return res.status(400).json({
+                message: "Name, email and password are required"
+            });
+        }
+
+        const pool = require("../config/db");
+        const existingUser = await pool.query(
+            "SELECT * FROM users WHERE email = $1", [email]
+        );
+        
+        if (existingUser.rows.length > 0) {
+            return res.status(400).json({
+                message: "Email Already Exists"
+            });
+        }
+
+        const hashedPassword = await bcrypt.hash(password, 10);
+
+        const newUser = await createUser(
+            name,
+            email,
+            hashedPassword,
+            role || "data_entry",
+            null,
+            null
+        );
+
+        res.status(201).json({
+            message: "User created successfully",
+            user: newUser
+        });
+    } catch (error) {
+        console.error("Add User Error", error);
+        res.status(500).json({
+            message: "Failed to Create User"
+        });
+    }
+};
+
+
+// DELETE USER (Super Admin)
+const deleteUser = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const pool = require("../config/db");
+
+        const userCheck = await pool.query(
+            "SELECT email FROM users WHERE id = $1", [id]
+        );
+
+        if (userCheck.rows.length === 0) {
+            return res.status(404).json({
+                message: "User Not Found"
+            });
+        }
+
+        if (userCheck.rows[0].email === "admin@gmail.com") {
+            return res.status(403).json({
+                message: "Primary Admin cannot be deleted"
+            });
+        }
+
+        // Delete user from database
+        await pool.query("DELETE FROM users WHERE id = $1", [id]);
+
+        res.status(200).json({
+            message: "User deleted successfully"
+        });
+    } catch (error) {
+        console.error("Delete User Error:", error);
+        res.status(500).json({
+            message: "Failed to delete user"
+        });
+    }
+};
+
+
 module.exports = {
     getProfile,
     updateProfile,
@@ -258,5 +342,7 @@ module.exports = {
     loginActivity,
     toggleTwoFactor,
     getAllUsers,
-    updateUserRole
+    updateUserRole,
+    addNewUser,
+    deleteUser
 };

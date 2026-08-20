@@ -1,6 +1,7 @@
 
 const pool = require("../config/db");
 const bcrypt = require("bcrypt");
+const { requireStafforAdmin } = require("../middleware/roleMiddleware");
 
 
 // ===============================
@@ -326,6 +327,16 @@ const updateUserRoleInDb=async (userId,role)=>{
     return result.rows[0];
 };
 
+// Delete user form databse
+
+const deleteUserByid=async (userId)=>{
+    const result=await pool.query(
+        "Delete from users where id=$1 Returning id,email",
+        [userId]
+    );
+
+    return result.rows[0];
+};
 
 
 
@@ -353,7 +364,9 @@ module.exports = {
 
     getAllUsersFromDb,
 
-    updateUserRoleInDb
+    updateUserRoleInDb,
+
+    deleteUserByid
 
 
 };

@@ -1,14 +1,14 @@
-
 import { useState, useEffect } from "react";
 import Sidebar from "../components/dashboard/Sidebar";
-// Agar aapki koi specific styling file hai toh aap yahan import kar sakte hain
+import Swal from "sweetalert2"; // SweetAlert2 import kiya
+import "../styles/Users.css";
 
 function Users() {
     const [users, setUsers] = useState([]);
     const [loading, setLoading] = useState(true);
     const [message, setMessage] = useState("");
 
-    // Backend se saare users fetch karne ka function
+    // Fetch All Users
     const fetchUsers = async () => {
         try {
             const token = localStorage.getItem("token");
@@ -36,7 +36,7 @@ function Users() {
         fetchUsers();
     }, []);
 
-    // User ka role update karne ka function
+    // Update Role
     const handleRoleChange = async (userId, newRole) => {
         try {
             const token = localStorage.getItem("token");
@@ -52,72 +52,179 @@ function Users() {
             const data = await response.json();
 
             if (response.ok) {
-                alert("User role updated successfully!");
-                fetchUsers(); // List ko dobara refresh karein
+                Swal.fire("Success!", "User role updated successfully!", "success");
+                fetchUsers();
             } else {
-                alert(data.message || "Failed to update role");
+                Swal.fire("Error!", data.message || "Failed to update role", "error");
             }
         } catch (error) {
             console.error("Error updating role:", error);
-            alert("Server error while updating role");
+            Swal.fire("Error!", "Server error while updating role", "error");
+        }
+    };
+
+    // Delete User with SweetAlert Confirmation
+    const handleDeleteUser = async (userId, userEmail) => {
+        if (userEmail === "admin@gmail.com") {
+            Swal.fire("Access Denied", "Primary Super Admin cannot be deleted!", "warning");
+            return;
+        }
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#dc3545",
+            cancelButtonColor: "#6c757d",
+            confirmButtonText: "Yes, delete it!"
+        }).then(async (result) => {
+            if (result.isConfirmed) {
+                try {
+                    const token = localStorage.getItem("token");
+                    const response = await fetch(`http://localhost:5000/api/users/${userId}`, {
+                        method: "DELETE",
+                        headers: {
+                            Authorization: `Bearer ${token}`
+                        }
+                    });
+
+                    const data = await response.json();
+
+                    if (response.ok) {
+                        Swal.fire("Deleted!", "User has been deleted.", "success");
+                        fetchUsers();
+                    } else {
+                        Swal.fire("Error!", data.message || "Failed to delete user", "error");
+                    }
+                } catch (error) {
+                    console.error("Error deleting user:", error);
+                    Swal.fire("Error!", "Server error while deleting user", "error");
+                }
+            }
+        });
+    };
+
+    // Open SweetAlert Popup Form for Adding User
+    const handleAddUserPopup = async () => {
+        const { value: formValues } = await Swal.fire({
+            title: "Add New Staff Member",
+            html: `
+                <input id="swal-name" class="swal2-input" placeholder="Full Name">
+                <input id="swal-email" type="email" class="swal2-input" placeholder="Email Address">
+                <input id="swal-password" type="password" class="swal2-input" placeholder="Password">
+                <select id="swal-role" class="swal2-input" style="width: 80%; padding: 8px;">
+                    <option value="data_entry">data_entry</option>
+                    <option value="super_admin">super_admin</option>
+                </select>
+            `,
+            focusConfirm: false,
+            showCancelButton: true,
+            confirmButtonText: "Save User",
+            confirmButtonColor: "#28a745",
+            preConfirm: () => {
+                const name = document.getElementById("swal-name").value;
+                const email = document.getElementById("swal-email").value;
+                const password = document.getElementById("swal-password").value;
+                const role = document.getElementById("swal-role").value;
+
+                if (!name || !email || !password) {
+                    Swal.showValidationMessage("Please fill in all required fields!");
+                }
+                return { name, email, password, role };
+            }
+        });
+
+        if (formValues) {
+            try {
+                const token = localStorage.getItem("token");
+                const response = await fetch("http://localhost:5000/api/users", {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                        Authorization: `Bearer ${token}`
+                    },
+                    body: JSON.stringify(formValues)
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    Swal.fire("Success!", "New user created successfully!", "success");
+                    fetchUsers();
+                } else {
+                    Swal.fire("Error!", data.message || "Failed to create user", "error");
+                }
+            } catch (error) {
+                console.error("Error creating user:", error);
+                Swal.fire("Error!", "Server error while creating user", "error");
+            }
         }
     };
 
     return (
-        <div className="admin-container" style={{ display: "flex" }}>
-            {/* Sidebar Component */}
+        <div className="admin-container">
             <Sidebar />
 
-            {/* Main Content Area */}
-            <main className="main-content" style={{ flex: 1, padding: "30px", backgroundColor: "#f9f9f9", minHeight: "100vh" }}>
-                <h1 style={{ marginBottom: "20px", color: "#333" }}>Users Management</h1>
+            <main className="main-content">
+                <div className="users-header">
+                    <h1>Users Management</h1>
+                    <button 
+                        className="btn-add" 
+                        onClick={handleAddUserPopup}
+                    >
+                        + Add New User
+                    </button>
+                </div>
 
-                {message && <p className="error-message" style={{ color: "red" }}>{message}</p>}
+                {message && <p className="error-message">{message}</p>}
 
                 {loading ? (
                     <p>Loading users...</p>
                 ) : (
-                    <div style={{ backgroundColor: "#fff", padding: "20px", borderRadius: "8px", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
-                        <table style={{ width: "100%", borderCollapse: "collapse", textAlign: "left" }}>
+                    <div className="users-table-container">
+                        <table className="users-table">
                             <thead>
-                                <tr style={{ borderBottom: "2px solid #eee", color: "#555" }}>
-                                    <th style={{ padding: "12px" }}>Name</th>
-                                    <th style={{ padding: "12px" }}>Email</th>
-                                    <th style={{ padding: "12px" }}>Current Role</th>
-                                    <th style={{ padding: "12px" }}>Action (Change Role)</th>
+                                <tr>
+                                    <th>Name</th>
+                                    <th>Email</th>
+                                    <th>Current Role</th>
+                                    <th>Change Role</th>
+                                    <th>Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 {users.map((user) => (
-                                    <tr key={user.id} style={{ borderBottom: "1px solid #eee" }}>
-                                        <td style={{ padding: "12px" }}>{user.name}</td>
-                                        <td style={{ padding: "12px" }}>{user.email}</td>
-                                        <td style={{ padding: "12px" }}>
-                                            <span style={{
-                                                padding: "4px 8px",
-                                                borderRadius: "4px",
-                                                backgroundColor: user.role === "super_admin" ? "#d4edda" : "#fff3cd",
-                                                color: user.role === "super_admin" ? "#155724" : "#856404",
-                                                fontWeight: "bold",
-                                                fontSize: "12px"
-                                            }}>
+                                    <tr key={user.id}>
+                                        <td>{user.name}</td>
+                                        <td>{user.email}</td>
+                                        <td>
+                                            <span className={`badge ${user.role === "super_admin" ? "super-admin" : "data-entry"}`}>
                                                 {user.role}
                                             </span>
                                         </td>
-                                        <td style={{ padding: "12px" }}>
+                                        <td>
                                             {user.email === "admin@gmail.com" ? (
-                                                <span style={{ color: "#888", fontStyle: "italic", fontSize: "14px" }}>
-                                                    🔒 Locked (Primary Admin)
-                                                </span>
+                                                <span className="locked-text">🔒 Locked (Primary Admin)</span>
                                             ) : (
                                                 <select
                                                     value={user.role}
                                                     onChange={(e) => handleRoleChange(user.id, e.target.value)}
-                                                    style={{ padding: "6px 10px", borderRadius: "4px", border: "1px solid #ccc" }}
+                                                    className="form-select"
                                                 >
                                                     <option value="super_admin">super_admin</option>
                                                     <option value="data_entry">data_entry</option>
                                                 </select>
+                                            )}
+                                        </td>
+                                        <td>
+                                            {user.email !== "admin@gmail.com" && (
+                                                <button 
+                                                    className="btn-delete"
+                                                    onClick={() => handleDeleteUser(user.id, user.email)}
+                                                >
+                                                    Delete
+                                                </button>
                                             )}
                                         </td>
                                     </tr>
