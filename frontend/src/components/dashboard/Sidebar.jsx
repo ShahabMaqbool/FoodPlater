@@ -9,6 +9,7 @@ import CategoriesIcon from "./icons/CategoriesIcon";
 import CustomersIcon from "./icons/CustomersIcon";
 import ProfileIcon from "./icons/ProfileIcon";
 import MoreSquareIcon from "./icons/MoreSquareIcon";
+import UsersIcon from "./icons/UsersIcon";
 
 function Sidebar() {
 
@@ -123,6 +124,7 @@ function Sidebar() {
                     >
 
                         {/*Icon Here attch it */}
+                        <UsersIcon />
                         <span>Users Management</span>
                     </Link>
 
